@@ -11,7 +11,8 @@
     "tsc": "tsc",
     "format": "prettier --write --ignore-unknown --ext js,jsx,ts,tsx src ./src",
     "format-check": "prettier --check --ignore-unknown --ext js,jsx,ts,tsx src ./src",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "g": "tauri dev"
   },
   "dependencies": {
     "@fontsource-variable/noto-sans": "^5.0.1",
