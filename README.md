@@ -78,12 +78,6 @@ As always, this is up to you to trust GBFR Logs. The program can trigger false p
 
 See [how to add an exclusion to Windows Defender](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26).
 
-> Q: How do I update?
-
-Launching the application will automatically check for new updates!
-
-Same as with installing, you can download the [latest release](https://github.com/false-spring/gbfr-logs/releases) and run the installer again and it will update over your old installation.
-
 > Q: How do I uninstall?
 
 You can uninstall GBFR Logs the normal way through the Control Panel or by running the uninstall script in the folder where you installed it to. You may also want to remove these folders.
