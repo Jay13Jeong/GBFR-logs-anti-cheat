@@ -3,6 +3,7 @@
 [![GitHub License](https://img.shields.io/github/license/false-spring/gbfr-logs)](./LICENSE)
 
 - Added cheat detection functionality for GBFR version 1.1.4.
+- This program only identifies potential cheating among party members and does not manipulate any data.
 - Overlay DPS parser/meter for Granblue Fantasy: Relink, based initially on the reverse engineering work from [naoouo/GBFR-ACT](https://github.com/nyaoouo/GBFR-ACT).
 
 ## Forked Repository
