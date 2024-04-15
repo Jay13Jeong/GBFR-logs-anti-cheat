@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "GBFR Logs",
-    "version": "0.0.13"
+    "version": "0.0.131"
   },
   "tauri": {
     "allowlist": {
@@ -105,9 +105,9 @@
     "updater": {
       "active": true,
       "dialog": true,
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERDQjZEMTgxOEY4OTIwNDcKUldSSElJbVBnZEcyM1BSUklxWWRsWStXYnVsWU1mODY3YzZCWCtTZzJrUGJsZHpNY1h1S3hhc2cK",
+      "pubkey": "MIIDGDCCAgCgAwIBAgIQKphldcvTKrtD6SlDO8ZtwDANBgkqhkiG9w0BAQsFADAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwHhcNMjQwNDE0MDcyNDUwWhcNMjUwNDE0MDc0NDUwWjAUMRIwEAYDVQQDDAlsb2NhbGhvc3QwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDIv7t5/bzf5CgL8wh82lZVvWDdEKgrIz4t/7R7j7Bm6QDmREJLSfAEgQiR0GaUQSmbAkWK3aUilqPzmgc53P72avfv1Pils9XQhCY56a4t8sNIKJ/Xf7NLxYQLZqyaCwcD3DNEFp/Cse5ki4XPraCK4YvNbFFa6gB5A7jaB9Ge7mSzyD7769ZGdIHwR+AD6uWgeSuG5TTGGUjQnbbXZKwaiPX3JtPKRvFrRk5gtAT83IPuXZcekHMgL+4som1vlUl0LzmWVgUYBy36VIECMzaMZiDZn0Z6ea/sKUGXCQSXCmY1iWJ4zPBI3zMkCmSsTvTsf4aW/+KDX0qVuSetmwIhAgMBAAGjZjBkMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwFAYDVR0RBA0wC4IJbG9jYWxob3N0MB0GA1UdDgQWBBR1L4YewiOubMTGVfPCp8QgjMFBvjANBgkqhkiG9w0BAQsFAAOCAQEAXrlls6SxvSUifQAsHVYgiuFzaUmc0JsopcdunXOQdXY2ixckVxYbSOkPbmv8mbtTW/Wqi76JcePr1fDMWnFpVMvPiBjN8YdmpSNMQm4QkWAvkIAD9pbgSkSH/BBPgSDuRgTsW44NQYHDCi0nSzE8t4W7jLDeO/6QsGmSqGeG9phZQYuI/Iqfo5wKzTxTkVa15sGLa4DZUK7YaWlnACbeunHTw3f5XSLiVmaUgEYOyH+Q9mtP2KFoNgb4VitwbhXVSeHsa3YF57PajxJhDfgXjuZfyufl4hntlZJRGvH9aN/QuPP1oXIQmANsF8kfF0uQtrDqBzzCQoT78MXsoNEZIQ==",
       "endpoints": [
-        "https://raw.githubusercontent.com/false-spring/gbfr-logs/main/update.json"
+        "https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/main/update.json"
       ],
       "windows": {
         "installMode": "basicUi"
