@@ -105,7 +105,7 @@
     "updater": {
       "active": true,
       "dialog": true,
-      "pubkey": "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZ3d0RRWUpLb1pJaHZjTkFRRUJCUUFEU3dBd1NBSkJBTHFETkRIaXJNMFVySll3aTFySThyeDJTT1cwNGhpZAo0c0ZNWXNZMDM0S01Ba2FZa3hNV1hTQzVudXBrTXRCMENXYy80WWdHeHFlYURoTGJYR3VIZWJrQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=",
+      "pubkey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERYYNY92IG8Vlvz45oRvrowXh3oHq26LiM8ZJ+HSGb6tPQBcoxwcJc+iL8QYKDvhWABe9W1yY0SEUrtl2pxvl7w==",
       "endpoints": [
         "https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/main/update.json"
       ],
