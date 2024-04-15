@@ -1,17 +1,17 @@
-# gbfr-logs
+# gbfr-anti-cheat
 
-[![GitHub Release](https://img.shields.io/github/v/release/false-spring/gbfr-logs)](https://github.com/false-spring/gbfr-logs/releases)
-[![GitHub Downloads](https://img.shields.io/github/downloads/false-spring/gbfr-logs/total)](https://github.com/false-spring/gbfr-logs/releases)
-[![Discord](https://img.shields.io/discord/1218833963032776774?style=flat&label=discord&color=7289da)](https://discord.gg/GR4r9zrqJj)
 [![GitHub License](https://img.shields.io/github/license/false-spring/gbfr-logs)](./LICENSE)
 
-<a href="https://www.buymeacoffee.com/false.spring" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+- Added cheat detection functionality for GBFR version 1.1.4.
+- Overlay DPS parser/meter for Granblue Fantasy: Relink, based initially on the reverse engineering work from [naoouo/GBFR-ACT](https://github.com/nyaoouo/GBFR-ACT).
 
-Overlay DPS parser/meter for Granblue Fantasy: Relink, based initially on the reverse engineering work from [naoouo/GBFR-ACT](https://github.com/nyaoouo/GBFR-ACT).
+## Forked Repository
+- This is the default repo without cheat detection.
+- Go to [Forked Repository](https://github.com/false-spring/gbfr-logs)
 
 ## How to install
 
-- Go to [Releases](https://github.com/false-spring/gbfr-logs/releases)
+- Go to [Releases](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
 - Download the latest .msi installer and run it.
 - Open GBFR Logs after the game is already running.
 
