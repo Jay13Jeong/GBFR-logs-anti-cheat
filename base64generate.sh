@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the key size
-KEY_SIZE=2048
+KEY_SIZE=512
 
 # Define the output filenames
 PRIVATE_KEY="private_key.pem"
