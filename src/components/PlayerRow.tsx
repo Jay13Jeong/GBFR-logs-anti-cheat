@@ -1,8 +1,6 @@
 import { useMeterSettingsStore } from "@/stores/useMeterSettingsStore";
 import { CharacterType, ComputedPlayerState, ComputedSkillState, MeterColumns, PlayerData } from "@/types";
 import {
-  // cheatState,
-  // checkCheatingSimpleAsync,
   getSkillName,
   humanizeNumbers, toHashString,
   translatedPlayerName,
@@ -10,7 +8,6 @@ import {
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import { Fragment, useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-// import { useRecoilValue } from "recoil";
 
 type Props = {
   player: ComputedPlayerState;
@@ -183,23 +180,20 @@ export const PlayerRow = ({
   useEffect(() => {
     checkCheatingSimpleAsync(partyData[partySlotIndex]!);
   }, []);
-  const checkCheatingSimpleAsync = async (player: PlayerData) => {
 
+  const checkCheatingSimpleAsync = async (player: PlayerData) => {
     // invalid wrightstone level
     if ((player.weaponInfo?.trait1Level ?? 0) > 10) {
       setCheatState(() => ({ status: "op ws 1", cheat: true }))
       return;
-      // return "op ws 1"
     }
     if ((player.weaponInfo?.trait2Level ?? 0) > 7) {
       setCheatState(() => ({ status: "op ws 2", cheat: true }))
       return;
-      // return "op ws 2"
     }
     if ((player.weaponInfo?.trait3Level ?? 0) > 5) {
       setCheatState(() => ({ status: "op ws 3", cheat: true }))
       return;
-      // return "op ws 3"
     }
 
     // invalid wrightstone trait
@@ -230,17 +224,14 @@ export const PlayerRow = ({
     if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait1Id ?? 0))) {
       setCheatState(() => ({ status: "cheat ws 1", cheat: true }))
       return;
-      // return "cheat ws 1"
     }
     if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait2Id ?? 0))) {
       setCheatState(() => ({ status: "cheat ws 2", cheat: true }))
       return;
-      // return "cheat ws 2"
     }
     if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait3Id ?? 0))) {
       setCheatState(() => ({ status: "cheat ws 3", cheat: true }))
       return;
-      // return "cheat ws 3"
     }
 
     // check sigils
@@ -248,7 +239,6 @@ export const PlayerRow = ({
       if (sigil.firstTraitLevel > 15 || sigil.secondTraitLevel > 15 || sigil.sigilLevel > 15) {
         setCheatState(() => ({ status: "op sigil", cheat: true }))
         return;
-        // cheats.push(`Modified sigil: over level 15`);
       }
       const sigilTrait1 = toHashString(sigil.firstTraitId ?? 0);
       const sigilTrait2 = toHashString(sigil.secondTraitId ?? 0);
@@ -257,14 +247,12 @@ export const PlayerRow = ({
       if (isLucySigil && sigilTrait2 !== "dc584f60") {
         setCheatState(() => ({ status: "cheat Lucy Sigil", cheat: true }))
         return;
-        // cheats.push(`Modified sigil: Lucy sigil with invalid second trait`);
       }
 
       const isWarElemental = sigilTrait1 === "4c588c27";
       if (isWarElemental && sigilTrait2 !== "887ae0b0") {
         setCheatState(() => ({ status: "cheat 2nd Sigil", cheat: true }))
         return;
-        // cheats.push(`Modified sigil: War Elemental sigil with invalid second trait`);
       }
     }
   };
@@ -290,9 +278,6 @@ export const PlayerRow = ({
 
   // If the meter is in live mode, only show the overlay columns that are enabled, otherwise show all columns.
   const columns = live ? overlay_columns : [MeterColumns.TotalDamage, MeterColumns.DPS, MeterColumns.DamagePercentage];
-
-  // checkCheatingSimpleAsync(partyData[partySlotIndex]!);
-  // const cheatChecker = useRecoilValue(cheatState);
 
   return (
     <Fragment>

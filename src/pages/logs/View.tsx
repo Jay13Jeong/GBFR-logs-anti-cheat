@@ -38,7 +38,6 @@ import {
 import {
   EMPTY_ID,
   PLAYER_COLORS,
-  // checkCheating,
   epochToLocalTime,
   exportCharacterDataToClipboard,
   exportFullEncounterToClipboard,
@@ -202,8 +201,6 @@ export const ViewPage = () => {
   }));
   const [sortType, setSortType] = useState<SortType>(MeterColumns.TotalDamage);
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
-
-  // const [cheatInfoes, setCheatInfoes] = useState<string | null>(null);
 
   useEffect(() => {
     invoke("fetch_encounter_state", { id: Number(id), options: { targets: selectedTargets } })
@@ -620,7 +617,7 @@ export const ViewPage = () => {
                 <Table.Tbody>
                   <Table.Tr>
                     {playerData.map((player) => {
-                      const cheatInfoes = checkCheatingAsync(player); ///////////////////////////////////
+                      const cheatInfoes = checkCheatingAsync(player); /////////////////////
                       return (
                         <Table.Td key={player.actorIndex} flex={1}>
                           <Flex direction="row" wrap="nowrap" align="center">
