@@ -29,3 +29,5 @@ dist-ssr
 
 *.pem
 *.cert
+
+package-lock.json
