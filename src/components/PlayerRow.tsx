@@ -1,8 +1,9 @@
 import { useMeterSettingsStore } from "@/stores/useMeterSettingsStore";
 import { CharacterType, ComputedPlayerState, ComputedSkillState, MeterColumns, PlayerData } from "@/types";
 import {
+  checkCheating,
   getSkillName,
-  humanizeNumbers, toHashString,
+  humanizeNumbers,
   translatedPlayerName,
 } from "@/utils";
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
@@ -182,78 +183,19 @@ export const PlayerRow = ({
   }, []);
 
   const checkCheatingSimpleAsync = async (player: PlayerData) => {
-    // invalid wrightstone level
-    if ((player.weaponInfo?.trait1Level ?? 0) > 10) {
-      setCheatState(() => ({ status: "op ws 1", cheat: true }))
-      return;
-    }
-    if ((player.weaponInfo?.trait2Level ?? 0) > 7) {
-      setCheatState(() => ({ status: "op ws 2", cheat: true }))
-      return;
-    }
-    if ((player.weaponInfo?.trait3Level ?? 0) > 5) {
-      setCheatState(() => ({ status: "op ws 3", cheat: true }))
+    const checkInfoes = checkCheating(player);
+    const lastIndex = checkInfoes.length - 1;
+    const checkStatus = checkInfoes[lastIndex];
+    const CHEAT_WSTONE: string = "1";
+    const CHEAT_SIGIL: string = "2";
+    if (checkStatus === CHEAT_WSTONE){
+      setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
       return;
     }
 
-    // invalid wrightstone trait
-    const notAllowedWrightstone = [
-      "57ab5b10",
-      "82ce278d",
-      "1568e0e4",
-      "70395731",
-      "cd18a77d",
-      "333e5862",
-      "a8a3163b",
-      "ec1c6779",
-      "dbe1d775",
-      "8d2adb6e",
-      "5c862e13",
-      "082033cb",
-      "1b0d9897",
-      "9ad8b5e6",
-      "40223c28",
-      "74aa75d6",
-      "dc225c96",
-      "4c588c27",
-      "5e422ae5",
-      "af794a87",
-      "57ab5b10",
-    ];
-
-    if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait1Id ?? 0))) {
-      setCheatState(() => ({ status: "cheat ws 1", cheat: true }))
+    if (checkStatus === CHEAT_SIGIL){
+      setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
       return;
-    }
-    if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait2Id ?? 0))) {
-      setCheatState(() => ({ status: "cheat ws 2", cheat: true }))
-      return;
-    }
-    if (notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait3Id ?? 0))) {
-      setCheatState(() => ({ status: "cheat ws 3", cheat: true }))
-      return;
-    }
-
-    // check sigils
-    for (const sigil of player.sigils) {
-      if (sigil.firstTraitLevel > 15 || sigil.secondTraitLevel > 15 || sigil.sigilLevel > 15) {
-        setCheatState(() => ({ status: "op sigil", cheat: true }))
-        return;
-      }
-      const sigilTrait1 = toHashString(sigil.firstTraitId ?? 0);
-      const sigilTrait2 = toHashString(sigil.secondTraitId ?? 0);
-
-      const isLucySigil = sigilTrait1 === "dbe1d775" || sigilTrait1 === "8d2adb6e" || sigilTrait1 === "5c862e13";
-      if (isLucySigil && sigilTrait2 !== "dc584f60") {
-        setCheatState(() => ({ status: "cheat Lucy Sigil", cheat: true }))
-        return;
-      }
-
-      const isWarElemental = sigilTrait1 === "4c588c27";
-      if (isWarElemental && sigilTrait2 !== "887ae0b0") {
-        setCheatState(() => ({ status: "cheat 2nd Sigil", cheat: true }))
-        return;
-      }
     }
   };
 

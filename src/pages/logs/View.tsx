@@ -54,6 +54,7 @@ import {
   translateSigilId,
   translateTraitId,
   translatedPlayerName,
+  checkCheating,
 } from "@/utils";
 import { useTranslation } from "react-i18next";
 import { useShallow } from "zustand/react/shallow";
@@ -212,75 +213,11 @@ export const ViewPage = () => {
       });
   }, [id, selectedTargets]);
 
-  const checkCheatingAsync = (player: PlayerData) => {
-    const cheats : string[] = [];
+  const checkCheatingController = (player: PlayerData) => {
+    const checkInfo = checkCheating(player);
+    const lastIndex = checkInfo.length - 1;
 
-    // invalid wrightstone level
-    if ((player.weaponInfo?.trait1Level ?? 0) > 10) {
-      cheats.push("Wrightstone with trait level > 10");
-    }
-    if ((player.weaponInfo?.trait2Level ?? 0) > 7) {
-      cheats.push("Wrightstone with trait level > 7");
-    }
-    if ((player.weaponInfo?.trait3Level ?? 0) > 5) {
-      cheats.push("Wrightstone with trait level > 5");
-    }
-
-    // invalid wrightstone trait
-    const notAllowedWrightstone = [
-      "57ab5b10",
-      "82ce278d",
-      "1568e0e4",
-      "70395731",
-      "cd18a77d",
-      "333e5862",
-      "a8a3163b",
-      "ec1c6779",
-      "dbe1d775",
-      "8d2adb6e",
-      "5c862e13",
-      "082033cb",
-      "1b0d9897",
-      "9ad8b5e6",
-      "40223c28",
-      "74aa75d6",
-      "dc225c96",
-      "4c588c27",
-      "5e422ae5",
-      "af794a87",
-      "57ab5b10",
-    ];
-
-    const hasCheatedWrightStone =
-      notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait1Id ?? 0)) ||
-      notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait2Id ?? 0)) ||
-      notAllowedWrightstone.includes(toHashString(player.weaponInfo?.trait3Id ?? 0));
-
-    if (hasCheatedWrightStone) {
-      cheats.push("Wrightstone with invalid trait");
-    }
-
-    // check sigils
-    for (const sigil of player.sigils) {
-      if (sigil.firstTraitLevel > 15 || sigil.secondTraitLevel > 15 || sigil.sigilLevel > 15) {
-        cheats.push(`Modified sigil: over level 15`);
-      }
-      const sigilTrait1 = toHashString(sigil.firstTraitId ?? 0);
-      const sigilTrait2 = toHashString(sigil.secondTraitId ?? 0);
-
-      const isLucySigil = sigilTrait1 === "dbe1d775" || sigilTrait1 === "8d2adb6e" || sigilTrait1 === "5c862e13";
-      if (isLucySigil && sigilTrait2 !== "dc584f60") {
-        cheats.push(`Modified sigil: Lucy sigil with invalid second trait`);
-      }
-
-      const isWarElemental = sigilTrait1 === "4c588c27";
-      if (isWarElemental && sigilTrait2 !== "887ae0b0") {
-        cheats.push(`Modified sigil: War Elemental sigil with invalid second trait`);
-      }
-    }
-
-    // setCheatInfoes(() => (cheats.join("\n")));
-    return cheats.join("\n");
+    return checkInfo.slice(0, lastIndex).join("\n");
   };
 
   const handleCharacterDataCopy = useCallback((player: PlayerData) => {
@@ -617,7 +554,7 @@ export const ViewPage = () => {
                 <Table.Tbody>
                   <Table.Tr>
                     {playerData.map((player) => {
-                      const cheatInfoes = checkCheatingAsync(player); /////////////////////
+                      const cheatInfoes = checkCheatingController(player); /////////////////////
                       return (
                         <Table.Td key={player.actorIndex} flex={1}>
                           <Flex direction="row" wrap="nowrap" align="center">
@@ -625,7 +562,7 @@ export const ViewPage = () => {
                               {formatPlayerDisplayName(player, false)}
                               {cheatInfoes ? (
                                 <>
-                                  {" - "}
+                                  <br/>
                                   (⚠️ Cheating ⚠️)
                                   <pre>{cheatInfoes}</pre>
                                 </>
