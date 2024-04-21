@@ -2,17 +2,21 @@ import { useMeterSettingsStore } from "@/stores/useMeterSettingsStore";
 import { CharacterType, ComputedPlayerState, ComputedSkillState, MeterColumns, PlayerData } from "@/types";
 import {
   checkCheating,
+  getDmgCap,
   getSkillName,
   humanizeNumbers,
   translatedPlayerName,
 } from "@/utils";
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
-import { Fragment, useEffect, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { t } from "i18next";
 
 type Props = {
   player: ComputedPlayerState;
   color: string;
+  setCheatState: Dispatch<SetStateAction<{status: string, cheat: boolean}>>;
+  playerData: PlayerData | null;
 };
 
 const SkillRow = ({
@@ -97,7 +101,7 @@ const SkillRow = ({
   );
 };
 
-const SkillBreakdown = ({ player, color }: Props) => {
+const SkillBreakdown = ({ player, color, setCheatState, playerData }: Props) => {
   const totalDamage = player.skillBreakdown.reduce((acc, skill) => acc + skill.totalDamage, 0);
   const computedSkills = player.skillBreakdown.map((skill) => {
     return {
@@ -107,6 +111,28 @@ const SkillBreakdown = ({ player, color }: Props) => {
   });
 
   computedSkills.sort((a, b) => b.totalDamage - a.totalDamage);
+
+  useEffect(() => {
+    if (playerData !== null){
+      checkDmgCheating(playerData);
+    }
+  }, []);
+
+  const checkDmgCheating = async (playerData: PlayerData) => {
+    let isCheatDmg : boolean = false;
+    const dmgCap : number = getDmgCap(playerData);
+
+    for (const skill of computedSkills){
+      if (skill.maxDamage && skill.maxDamage > (dmgCap * 1.03)){
+        isCheatDmg = true;
+        break;
+      }
+    }
+
+    if (isCheatDmg){
+      setCheatState((state) => (state.cheat ? state : { status: "Cheat Dmg Power", cheat: true }))
+    }
+  }
 
   return (
     <tr className="skill-table">
@@ -175,7 +201,6 @@ export const PlayerRow = ({
   const [totalDamage, totalDamageUnit] = humanizeNumbers(player.totalDamage);
   const [dps, dpsUnit] = humanizeNumbers(player.dps);
 
-  // const cheatChecker = useRecoilValue(cheatState);
   const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
 
   useEffect(() => {
@@ -250,7 +275,60 @@ export const PlayerRow = ({
         <td className="text-center row-button">{isOpen ? <CaretUp size={16} /> : <CaretDown size={16} />}</td>
         <div className="damage-bar" style={{ backgroundColor: color, width: `${player.percentage}%` }} />
       </tr>
-      {isOpen && <SkillBreakdown player={player} color={color} />}
+      {isOpen && <SkillBreakdown player={player} color={color} setCheatState={setCheatState} playerData={partyData[partySlotIndex]} />}
     </Fragment>
+  );
+};
+
+export const PlayerCheatChecker = ({
+                            playerData
+                          }: {
+  playerData: PlayerData | null;
+  }) => {
+    const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
+    const [characterType, setCharacterType] = useState<string>("");
+
+    useEffect(() => {
+      checkCheatingSimpleAsync(playerData!);
+      const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
+      setCharacterType(() => characterTypeResult);
+    }, []);
+
+    const checkCheatingSimpleAsync = async (player: PlayerData) => {
+      const checkInfoes = checkCheating(player);
+      const lastIndex = checkInfoes.length - 1;
+      const checkStatus = checkInfoes[lastIndex];
+      const CHEAT_WSTONE: string = "1";
+      const CHEAT_SIGIL: string = "2";
+      if (checkStatus === CHEAT_WSTONE){
+        setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
+        return;
+      }
+
+      if (checkStatus === CHEAT_SIGIL){
+        setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
+        return;
+      }
+    };
+
+    return (
+      <>
+        {cheatChecker.cheat ?
+          <tr>
+            <td style={{backgroundColor: 'red'}}>{playerData?.displayName} ({characterType}) ({cheatChecker.status})</td>
+            <td>{playerData?.displayName}</td>
+            <td></td>
+            <td></td>
+          </tr>
+          :
+          null
+          // < tr >
+          // <td style={{backgroundColor: 'red'}}>{playerData?.displayName} ({characterType})</td>
+          // <td>{playerData?.displayName}</td>
+          // <td></td>
+          // <td></td>
+          // </tr>
+        }
+      </>
   );
 };

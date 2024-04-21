@@ -498,3 +498,15 @@ export const checkCheating = (player: PlayerData) => {
   cheats.push(status);
   return cheats;
 };
+
+export const getDmgCap = (player: PlayerData) => {
+  let dmgCap : number = 0;
+  dmgCap = 2e9; ////////////////////////////////////
+
+  // to do // Get dmg cap through the sigils
+  for (const sigil of player.sigils) {
+    sigil.sigilId
+  }
+
+  return dmgCap;
+}
