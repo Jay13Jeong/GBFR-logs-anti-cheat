@@ -1,5 +1,8 @@
 # gbfr-anti-cheat
 
+[![GitHub Release](https://img.shields.io/github/v/release/Jay13Jeong/GBFR-logs-anti-cheat)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
+[![GitHub Downloads](https://img.shields.io/github/downloads/Jay13Jeong/GBFR-logs-anti-cheat/total)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
+[![GitHub Discussions](https://img.shields.io/github/discussions/Jay13Jeong/GBFR-logs-anti-cheat)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/discussions)
 [![GitHub License](https://img.shields.io/github/license/false-spring/gbfr-logs)](./LICENSE)
 
 - Added cheat detection functionality for GBFR version 1.1.4.
@@ -11,6 +14,10 @@
 - Go to [Releases](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
 - Download the latest .msi installer and run it.
 - Open GBFR Logs after the game is already running.
+
+## Forked Repository
+- This is the default repo without cheat detection.
+- Go to [Forked Repository](https://github.com/false-spring/gbfr-logs)
 
 ## Screenshots
 
@@ -119,6 +126,4 @@ This project would not have been possible without the following folks:
 
 Please keep in mind that this tool is meant to improve the experience that Cygames has provided us and is not meant to cause them or anyone other players damage. GBFR Logs modifies your running game client and is not guaranteed to work after game patches, in which case you may experience instability or crashes.
 
-## Forked Repository
-- This is the default repo without cheat detection.
-- Go to [Forked Repository](https://github.com/false-spring/gbfr-logs)
+
