@@ -6,8 +6,8 @@
 [![GitHub License](https://img.shields.io/github/license/false-spring/gbfr-logs)](./LICENSE)
 
 - Added cheat detection functionality for GBFR version 1.1.4.
-- This program only identifies potential cheating among party members and does not manipulate any data.
-- Overlay DPS parser/meter for Granblue Fantasy: Relink, based initially on the reverse engineering work from [naoouo/GBFR-ACT](https://github.com/nyaoouo/GBFR-ACT).
+- This program identifies the potential for cheating among party members.
+- This project was developed based on [false-spring/gbfr-logs](https://github.com/false-spring/gbfr-logs).
 
 ## How to install
 
@@ -15,35 +15,17 @@
 - Download the latest .msi installer and run it.
 - Open GBFR Logs after the game is already running.
 
-## Forked Repository
-- This is the default repo without cheat detection.
-- Go to [Forked Repository](https://github.com/false-spring/gbfr-logs)
-
 ## Screenshots
-
-### DPS Overlay
-
-![Meter](./docs/screenshots/meter.png)
 
 ### Skill Tracking
 
+![캡처2](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/assets/63899204/848800d9-7db2-49e4-8c67-c9153b90e141)
+
 ![Meter](./docs/screenshots/skill-tracking.png)
-
-### Historical Logs
-
-![Logs](./docs/screenshots/log-history.png)
-
-### DPS Charts
-
-![Charts](./docs/screenshots/charting.png)
-
-### SBA Tracking
-
-![SBA Tracking](./docs/screenshots/sba-tracking.png)
 
 ### Equipment Tracking
 
-![Equipment Loadouts](./docs/screenshots/equipment-tracking.png)
+![캡처4](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/assets/63899204/05793bdc-e992-4f80-969b-11b38873ba33)
 
 ### Multi-language Support
 
@@ -88,13 +70,8 @@ You can uninstall GBFR Logs the normal way through the Control Panel or by runni
 
 - `%AppData%\gbfr-logs`
 
-> Q: How do I add/edit my language?
-
-Read [src-tauri/lang/README.md](./src-tauri/lang/README.md) for more information on how to add/edit language support!
-
 > Q: My issue isn't listed here, or I have a suggestion.
-
-Feel free to create a [new GitHub issue](https://github.com/false-spring/gbfr-logs/issues) or [join the Discord server](https://discord.gg/GR4r9zrqJj).
+- Please leave your comments [here](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/discussions).
 
 ## For Developers
 
@@ -110,17 +87,6 @@ This project is split up into a few subprojects:
 - `src-tauri/` - The Tauri Rust backend that communicates with the hooked process and does parsing.
 - `protocol/` - Defines the message protocol used by hook + back-end.
 - `src/` - The JS front-end used by the Tauri web app
-
-# Supporting the Project
-
-GBFR Logs will always be kept free and open-source (MIT). However, if you want to support me directly, [you can buy me a coffee!](https://www.buymeacoffee.com/false.spring) 🙇
-
-## Credits
-
-This project would not have been possible without the following folks:
-
-- [nyaoouo/GBFR-ACT](https://github.com/nyaoouo/GBFR-ACT) for the original reverse engineering work.
-- [Harkain](https://github.com/Harkains) for their work on formatting and translating skills to friendly English names.
 
 ## Disclaimer
 
