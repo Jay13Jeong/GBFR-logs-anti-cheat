@@ -1,11 +1,11 @@
 import { useMeterSettingsStore } from "@/stores/useMeterSettingsStore";
 import { CharacterType, ComputedPlayerState, ComputedSkillState, MeterColumns, PlayerData } from "@/types";
 import {
-  checkCheating,
+  checkCheating, EMPTY_ID,
   getDmgCap,
-  getSkillName,
+  getSkillName, getSupDmgPlusCount,
   humanizeNumbers,
-  translatedPlayerName,
+  translatedPlayerName, translateSigilId, translateTraitId,
 } from "@/utils";
 import { CaretDown, CaretUp } from "@phosphor-icons/react";
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
@@ -280,55 +280,95 @@ export const PlayerRow = ({
   );
 };
 
-export const PlayerCheatChecker = ({
-                            playerData
-                          }: {
-  playerData: PlayerData | null;
-  }) => {
-    const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
-    const [characterType, setCharacterType] = useState<string>("");
-
-    useEffect(() => {
-      checkCheatingSimpleAsync(playerData!);
-      const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
-      setCharacterType(() => characterTypeResult);
-    }, []);
-
-    const checkCheatingSimpleAsync = async (player: PlayerData) => {
-      const checkInfoes = checkCheating(player);
-      const lastIndex = checkInfoes.length - 1;
-      const checkStatus = checkInfoes[lastIndex];
-      const CHEAT_WSTONE: string = "1";
-      const CHEAT_SIGIL: string = "2";
-      if (checkStatus === CHEAT_WSTONE){
-        setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
-        return;
-      }
-
-      if (checkStatus === CHEAT_SIGIL){
-        setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
-        return;
-      }
-    };
-
-    return (
-      <>
-        {cheatChecker.cheat ?
+const EquipmentList = ({playerData}: { playerData: PlayerData | null; }) => {
+  return (
+    <tr className="skill-table">
+      <td colSpan={100}>
+        <table className="table w-full">
+          <thead className="header transparent-bg">
           <tr>
-            <td style={{backgroundColor: 'red'}}>{playerData?.displayName} ({characterType}) ({cheatChecker.status})</td>
-            <td>{playerData?.displayName}</td>
-            <td></td>
-            <td></td>
+            <th className="header-column">Sigil</th>
+            <th className="header-column">Trait 1st</th>
+            <th className="header-column">Trait 2nd</th>
           </tr>
+          </thead>
+          <tbody className="transparent-bg">
+            {
+              playerData?.sigils.map((sigil, index) => {
+                return(
+                  <tr key={index}>
+                    <td>{translateSigilId(sigil.sigilId)} (Lvl. {sigil.sigilLevel})</td>
+                    {sigil.firstTraitId !== EMPTY_ID ?
+                      <td>{translateTraitId(sigil.firstTraitId)}</td>
+                      :
+                      <td style={{ backgroundColor: 'red'}}>Empty(Cheat)</td>
+                    }
+                    <td>{sigil.secondTraitId !== EMPTY_ID && `${translateTraitId(sigil.secondTraitId)}`}</td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  );
+};
+
+export const PlayerEquipment = ({
+                                  playerData,
+                                }: {
+  playerData: PlayerData | null;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
+  const [characterType, setCharacterType] = useState<string>("");
+  const [supDmgPlusCount, setSupDmgPlusCount] = useState<number>(0);
+
+  useEffect(() => {
+    const getSupDmgPlusCountAsync = async () => {
+      const cnt : number = getSupDmgPlusCount(playerData!.sigils)
+      setSupDmgPlusCount(() => cnt);
+    }
+    getSupDmgPlusCountAsync();
+  }, []);
+
+  useEffect(() => {
+    checkCheatingSimpleAsync(playerData!);
+    const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
+    setCharacterType(() => characterTypeResult);
+  }, []);
+
+  const checkCheatingSimpleAsync = async (player: PlayerData) => {
+    const checkInfoes = checkCheating(player);
+    const lastIndex = checkInfoes.length - 1;
+    const checkStatus = checkInfoes[lastIndex];
+    const CHEAT_WSTONE: string = "1";
+    const CHEAT_SIGIL: string = "2";
+    if (checkStatus === CHEAT_WSTONE){
+      setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
+      return;
+    }
+
+    if (checkStatus === CHEAT_SIGIL){
+      setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
+      return;
+    }
+  };
+
+  return (
+    <Fragment>
+      <tr className={`player-row ${isOpen ? "transparent-bg" : ""}`} onClick={() => setIsOpen(!isOpen)}>
+        {cheatChecker.cheat ?
+          <td style={{ backgroundColor: 'red' }}>{playerData?.displayName} ({characterType}) ({supDmgPlusCount} SupDmgV+) ({cheatChecker.status})</td>
           :
-          null
-          // < tr >
-          // <td style={{backgroundColor: 'red'}}>{playerData?.displayName} ({characterType})</td>
-          // <td>{playerData?.displayName}</td>
-          // <td></td>
-          // <td></td>
-          // </tr>
+          <td style={{ backgroundColor: 'rgba(224, 255, 255, 0.5)' }}>{playerData?.displayName}  &nbsp;({characterType}) ({supDmgPlusCount} SupDmgV+)</td>
         }
-      </>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      {isOpen && <EquipmentList playerData={playerData} />}
+    </Fragment>
   );
 };

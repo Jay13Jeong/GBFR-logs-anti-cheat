@@ -8,7 +8,7 @@ import {
   EnemyType,
   MeterColumns,
   PlayerData,
-  PlayerState,
+  PlayerState, Sigil,
   SortDirection,
   SortType,
 } from "./types";
@@ -509,4 +509,17 @@ export const getDmgCap = (player: PlayerData) => {
   }
 
   return dmgCap;
+}
+
+export const getSupDmgPlusCount = (sigils :  Sigil[]) => {
+  let cnt : number = 0;
+  
+  for (const sigil of sigils) {
+    const sigilId = toHashString(sigil.sigilId ?? 0);
+    const isSupplementaryPlusSigil = sigilId === "035a4ddd";
+
+    if (isSupplementaryPlusSigil) cnt = cnt + 1;
+  }
+
+  return cnt;
 }
