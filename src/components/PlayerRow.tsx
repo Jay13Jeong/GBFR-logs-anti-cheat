@@ -204,23 +204,24 @@ export const PlayerRow = ({
   const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
 
   useEffect(() => {
-    checkCheatingSimpleAsync(partyData[partySlotIndex]!);
-  }, []);
+    checkCheatingSimpleAsync();
+  }, [partySlotIndex, partyData]);
+  const checkCheatingSimpleAsync = async () => {
+    if (partyData[partySlotIndex] !== null && partyData[partySlotIndex] !== undefined) {
+      const playerData = partyData[partySlotIndex]!;
+      const checkInfoes = checkCheating(playerData);
+      const lastIndex = checkInfoes.length - 1;
+      const checkStatus = checkInfoes[lastIndex];
+      const CHEAT_WSTONE: string = "1";
+      const CHEAT_SIGIL: string = "2";
+      if (checkStatus === CHEAT_WSTONE){
+        setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
+      } else if (checkStatus === CHEAT_SIGIL){
+        setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
+      } else {
+        setCheatState(() => ({ status: "Ok", cheat: false }))
+      }
 
-  const checkCheatingSimpleAsync = async (player: PlayerData) => {
-    const checkInfoes = checkCheating(player);
-    const lastIndex = checkInfoes.length - 1;
-    const checkStatus = checkInfoes[lastIndex];
-    const CHEAT_WSTONE: string = "1";
-    const CHEAT_SIGIL: string = "2";
-    if (checkStatus === CHEAT_WSTONE){
-      setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
-      return;
-    }
-
-    if (checkStatus === CHEAT_SIGIL){
-      setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
-      return;
     }
   };
 
@@ -251,10 +252,7 @@ export const PlayerRow = ({
       <tr className={`player-row ${isOpen ? "transparent-bg" : ""}`} onClick={() => setIsOpen(!isOpen)}>
         <td className="text-left row-data">
           {translatedPlayerName(partySlotIndex, partyData[partySlotIndex], player, show_display_names)}
-
-          {cheatChecker.cheat ? <span> ({cheatChecker.status})</span> :
-            <span> (Ok)</span>}
-
+          <span>{cheatChecker.cheat ? ` (${ cheatChecker.status })` : ' (Ok)'}</span>
         </td>
         {columns.map((column) => {
           const columnValue = matchColumnTypeToValue(show_full_values, column);
@@ -301,7 +299,7 @@ const EquipmentList = ({playerData}: { playerData: PlayerData | null; }) => {
                     {sigil.firstTraitId !== EMPTY_ID ?
                       <td>{translateTraitId(sigil.firstTraitId)}</td>
                       :
-                      <td style={{ backgroundColor: 'red'}}>Empty(Cheat)</td>
+                      <td>-</td>
                     }
                     <td>{sigil.secondTraitId !== EMPTY_ID && `${translateTraitId(sigil.secondTraitId)}`}</td>
                   </tr>
@@ -316,9 +314,10 @@ const EquipmentList = ({playerData}: { playerData: PlayerData | null; }) => {
 };
 
 export const PlayerEquipment = ({
-                                  playerData,
+                                  playerData, partyData
                                 }: {
   playerData: PlayerData | null;
+  partyData: Array<PlayerData | null>;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
@@ -331,13 +330,13 @@ export const PlayerEquipment = ({
       setSupDmgPlusCount(() => cnt);
     }
     getSupDmgPlusCountAsync();
-  }, []);
+  }, [playerData, partyData]);
 
   useEffect(() => {
     checkCheatingSimpleAsync(playerData!);
     const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
     setCharacterType(() => characterTypeResult);
-  }, []);
+  }, [playerData]);
 
   const checkCheatingSimpleAsync = async (player: PlayerData) => {
     const checkInfoes = checkCheating(player);
@@ -347,12 +346,10 @@ export const PlayerEquipment = ({
     const CHEAT_SIGIL: string = "2";
     if (checkStatus === CHEAT_WSTONE){
       setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
-      return;
-    }
-
-    if (checkStatus === CHEAT_SIGIL){
+    } else if (checkStatus === CHEAT_SIGIL){
       setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
-      return;
+    } else {
+      setCheatState(() => ({ status: "Ok", cheat: false }))
     }
   };
 

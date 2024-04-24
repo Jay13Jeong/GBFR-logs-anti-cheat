@@ -86,7 +86,7 @@ export const Table = ({
 
           if (isEmptyUserSlot) return null;
           return (
-            <PlayerEquipment key={index} playerData={playerData} />
+            <PlayerEquipment key={index} playerData={playerData} partyData={partyData} />
           )
         })}
       </tbody>
