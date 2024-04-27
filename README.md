@@ -3,9 +3,9 @@
 [![GitHub Release](https://img.shields.io/github/v/release/Jay13Jeong/GBFR-logs-anti-cheat)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
 [![GitHub Downloads](https://img.shields.io/github/downloads/Jay13Jeong/GBFR-logs-anti-cheat/total)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases)
 [![GitHub Discussions](https://img.shields.io/github/discussions/Jay13Jeong/GBFR-logs-anti-cheat)](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/discussions)
-[![GitHub License](https://img.shields.io/github/license/false-spring/gbfr-logs)](./LICENSE)
+[![GitHub License](https://img.shields.io/github/license/Jay13Jeong/GBFR-logs-anti-cheat)](./LICENSE)
 
-- Added cheat detection functionality for GBFR version 1.1.4.
+- Added cheat detection functionality for GBFR version 1.2.1.
 - This program identifies the potential for cheating among party members.
 - This project was developed based on [false-spring/gbfr-logs](https://github.com/false-spring/gbfr-logs).
 

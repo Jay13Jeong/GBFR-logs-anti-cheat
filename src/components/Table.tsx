@@ -3,7 +3,8 @@ import { useShallow } from "zustand/react/shallow";
 import { useMeterSettingsStore } from "../stores/useMeterSettingsStore";
 import { ComputedPlayerState, EncounterState, MeterColumns, PlayerData, SortDirection, SortType } from "../types";
 import { formatInPartyOrder, sortPlayers } from "../utils";
-import { PlayerEquipment, PlayerRow } from "./PlayerRow";
+import { PlayerRow } from "./PlayerRow";
+import { PlayerEquipment } from "@/components/PlayerRowExtension.tsx";
 
 export const Table = ({
   live = false,
@@ -79,11 +80,9 @@ export const Table = ({
       <tbody>
         {players.map((player) => (
           <PlayerRow live={live} key={player.index} player={player} partyData={partyData} />
-          ))}
-
+        ))}
         {partyData.map((playerData, index) => {
           const isEmptyUserSlot : boolean = playerData?.displayName === undefined;
-
           if (isEmptyUserSlot) return null;
           return (
             <PlayerEquipment key={index} playerData={playerData} partyData={partyData} />

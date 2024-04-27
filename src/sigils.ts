@@ -1,4 +1,4 @@
-interface AttackSigil {
+interface sampleSigil {
   firstTrait: string;
   sigilId: string;
 }
@@ -7,7 +7,7 @@ export const attackSigilIdMap = new Map<string, string>();
 export const attackSigilTrait1Map = new Map<string, string>();
 
 // 예제 데이터
-const attackSigils: AttackSigil[] = [
+const attackSigils: sampleSigil[] = [
   { firstTrait: "3FFFA48D", sigilId: "A30B71CE" },
   { firstTrait: "2FC67C8F", sigilId: "E8823B59" },
   { firstTrait: "C0A73AFB", sigilId: "9D7EDD66" },
@@ -33,6 +33,25 @@ const attackSigils: AttackSigil[] = [
 ];
 
 attackSigils.forEach(sigil => {
+  attackSigilIdMap.set(sigil.sigilId, sigil.firstTrait);
+  attackSigilTrait1Map.set(sigil.firstTrait, sigil.sigilId);
+});
+
+export const seofonSigils: sampleSigil[] = [
+  { firstTrait: "2452677621", sigilId: "2929560031" },
+  { firstTrait: "2009598453", sigilId: "316658448" },
+  { firstTrait: "4010142797", sigilId: "3302852154" },
+  { firstTrait: "2373493147", sigilId: "196723080" }
+];
+
+export const tweyenSigils: sampleSigil[] = [
+  { firstTrait: "3898603744", sigilId: "3947551085" },
+  { firstTrait: "2238888111", sigilId: "3689219015" },
+  { firstTrait: "672273579", sigilId: "1138615773" },
+  { firstTrait: "2175964121", sigilId: "2959295748" }
+];
+
+[seofonSigils[0], seofonSigils[1], tweyenSigils[0], tweyenSigils[1]].forEach(sigil => {
   attackSigilIdMap.set(sigil.sigilId, sigil.firstTrait);
   attackSigilTrait1Map.set(sigil.firstTrait, sigil.sigilId);
 });

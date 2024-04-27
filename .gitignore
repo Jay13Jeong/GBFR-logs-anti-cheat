@@ -26,6 +26,3 @@ dist-ssr
 *.dll
 *.gbfr
 **/target/
-
-*.pem
-*.cert
