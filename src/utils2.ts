@@ -78,13 +78,18 @@ export const checkCheating = (player: PlayerData) => {
   if (player !== undefined){
     let index = 0;
     for (const sigil of player.sigils) {
-      if (sigil.firstTraitLevel > 15 || sigil.secondTraitLevel > 15 || sigil.sigilLevel > 15) {
-        cheats.push(`Modified sigil:\nover level 15`);
-        if (status === NP) invalidIdx = index.toString();
-        if (status === NP) status = CHEAT_SIGIL;
-      }
       const sigilTrait1 = toHashString(sigil.firstTraitId ?? 0);
       const sigilTrait2 = toHashString(sigil.secondTraitId ?? 0);
+
+      if (sigil.firstTraitLevel > 15 || sigil.secondTraitLevel > 15 || sigil.sigilLevel > 15) {
+        if (!(sigilTrait1 === "082033cb" && sigil.firstTraitLevel <= 45) && //게의 보은 공명//
+            !(sigilTrait1 === "d3b8c21f" && sigil.firstTraitLevel <= 45)) {
+          cheats.push(`Modified sigil:\nover level 15`);
+          if (status === NP) invalidIdx = index.toString();
+          if (status === NP) status = CHEAT_SIGIL;
+        }
+      }
+
 
       const isLucySigil = sigilTrait1 === "dbe1d775" || sigilTrait1 === "8d2adb6e" || sigilTrait1 === "5c862e13";
       if (isLucySigil && sigilTrait2 !== "dc584f60") {
