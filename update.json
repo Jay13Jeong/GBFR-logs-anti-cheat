@@ -4,7 +4,7 @@
   "pub_date": "2024-05-1T01:35:46+00:00",
   "platforms": {
     "windows-x86_64": {
-      "signature": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAERYYNY92IG8Vlvz45oRvrowXh3oHq26LiM8ZJ+HSGb6tPQBcoxwcJc+iL8QYKDvhWABe9W1yY0SEUrtl2pxvl7w==",
+      "signature": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjeQq7Tk2HCOFn2EtxBwbmu4OpWfHuEo0muB2hyNtATR93JzdJieBDhGlXi9dt6TfHnfiMUs2hN7OOYAEdRBA13uSyU3hmHAMfzWlcnnOx8zxdbMyQLEliEoBFRDbFFP8k63nlNXPlHHtIMwh7HsL4FUpVChLsQezVREqavYpzvix7PusDwJdTJLOTsgSKvrOqaPqx49a0rOuYsmgbvcsy+N+8ABgWQwnqjA5gOZ3N6jv3oeC/skMzMYMytLytPZ+Byt7NQgPVt7j6k1N6EJX7EMqpBb8NQ5Bs3vMBhnZiRDHbAqo1hS/iWzm9lCgUciVKbiHx/Zd/KJ70Cq77C5rAwIDAQAB",
       "url": "https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/releases/download/0.0.134/GBFR.Logs_0.0.134_x64_en-US.msi.zip"
     }
   }
