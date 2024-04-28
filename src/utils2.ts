@@ -57,6 +57,7 @@ export const checkCheating = (player: PlayerData) => {
       "4c588c27",
       "5e422ae5",
       "af794a87",
+      "a1a8e39d",
       seofonSigils[3].firstTrait,
       tweyenSigils[3].firstTrait
     ];
@@ -105,7 +106,7 @@ export const checkCheating = (player: PlayerData) => {
         sigilTrait1 === seofonSigils[3].firstTrait || sigilTrait1 === tweyenSigils[3].firstTrait;
       const isSingleSigil2 = sigilTrait2 === "4c588c27" || //유리;
         sigilTrait2 === seofonSigils[3].firstTrait || sigilTrait2 === tweyenSigils[3].firstTrait ||
-        sigilTrait2 === "57ab5b10" || sigilTrait2 === "ec1c6779" || sigilTrait2 === "8f502f0d"; //추뎀,프닷,움무;
+        sigilTrait2 === "57ab5b10" || sigilTrait2 === "ec1c6779" || sigilTrait2 === "a1a8e39d"; //추뎀,프닷,움무;
       if ((isSingleSigil && sigilTrait2 !== EMPTY) || isSingleSigil2) {
         cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
