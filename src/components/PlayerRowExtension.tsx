@@ -4,10 +4,15 @@ import {
   translateSigilId, translateTraitId,
 } from "@/utils";
 import { Fragment, useEffect, useState } from "react";
-import { checkCheating, getSupDmgPlusCount } from "@/utils2.ts";
+import {
+  checkCheating,
+  // getSupDmgPlusCount
+} from "@/utils2.ts";
 import { t } from "i18next";
 
-const EquipmentList = ({playerData}: { playerData: PlayerData | null; }) => {
+const EquipmentList = ({playerData, invalidSigilIdx}: {
+  playerData: PlayerData | null,
+  invalidSigilIdx: number; }) => {
   return (
     <tr className="skill-table">
       <td colSpan={100}>
@@ -22,8 +27,12 @@ const EquipmentList = ({playerData}: { playerData: PlayerData | null; }) => {
           <tbody className="transparent-bg">
           {
             playerData?.sigils.map((sigil, index) => {
+              const backgroundColor = index === invalidSigilIdx ? "red" : 'transparent';
+              const locationStyle = {
+                backgroundColor: backgroundColor
+              };
               return(
-                <tr key={index}>
+                <tr key={index} style={locationStyle}>
                   <td>{translateSigilId(sigil.sigilId)} (Lvl. {sigil.sigilLevel})</td>
                   {sigil.firstTraitId !== EMPTY_ID ?
                     <td>{translateTraitId(sigil.firstTraitId)}</td>
@@ -51,14 +60,15 @@ export const PlayerEquipment = ({
   const [isOpen, setIsOpen] = useState(false);
   const [cheatChecker, setCheatState] = useState({status: "", cheat: false});
   const [characterType, setCharacterType] = useState<string>("");
-  const [supDmgPlusCount, setSupDmgPlusCount] = useState<number>(0);
+  // const [supDmgPlusCount, setSupDmgPlusCount] = useState<number>(0);
+  const [invalidSigilIdx, setInvalidSigilIdx] = useState("-1");
 
   useEffect(() => {
-    const getSupDmgPlusCountAsync = async () => {
-      const cnt : number = getSupDmgPlusCount(playerData!.sigils)
-      setSupDmgPlusCount(() => cnt);
-    }
-    getSupDmgPlusCountAsync();
+    // const getSupDmgPlusCountAsync = async () => {
+    //   const cnt : number = getSupDmgPlusCount(playerData!.sigils)
+    //   setSupDmgPlusCount(() => cnt);
+    // }
+    // getSupDmgPlusCountAsync();
   }, [playerData, partyData]);
 
   useEffect(() => {
@@ -71,14 +81,20 @@ export const PlayerEquipment = ({
     const checkInfoes = checkCheating(player);
     const lastIndex = checkInfoes.length - 1;
     const checkStatus = checkInfoes[lastIndex];
+    const checkIdx = checkInfoes[lastIndex - 1];
     const CHEAT_WSTONE: string = "1";
     const CHEAT_SIGIL: string = "2";
     if (checkStatus === CHEAT_WSTONE){
       setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
+      setInvalidSigilIdx(() => checkIdx)
     } else if (checkStatus === CHEAT_SIGIL){
-      setCheatState(() => ({ status: "Cheat Sigil", cheat: true }))
+      const lineNo = parseInt(checkIdx) + 1;
+      setCheatState(() => (
+        { status: "Cheat Sigil Line " + lineNo.toString(), cheat: true }))
+      setInvalidSigilIdx(() => checkIdx)
     } else {
       setCheatState(() => ({ status: "Ok", cheat: false }))
+      setInvalidSigilIdx(() => "-1")
     }
   };
 
@@ -86,15 +102,15 @@ export const PlayerEquipment = ({
     <Fragment>
       <tr className={`player-row ${isOpen ? "transparent-bg" : ""}`} onClick={() => setIsOpen(!isOpen)}>
         {cheatChecker.cheat ?
-          <td style={{ backgroundColor: 'red' }}>{playerData?.displayName} ({characterType}) ({supDmgPlusCount} SupDmgV+) ({cheatChecker.status})</td>
+          <td style={{ backgroundColor: 'red' }}>{playerData?.displayName} ({characterType}) ({cheatChecker.status})</td>
           :
-          <td style={{ backgroundColor: 'rgba(224, 255, 255, 0.5)' }}>{playerData?.displayName}  &nbsp;({characterType}) ({supDmgPlusCount} SupDmgV+)</td>
+          <td style={{ backgroundColor: 'rgba(224, 255, 255, 0.5)' }}>{playerData?.displayName}  &nbsp;({characterType}) (Ok)</td>
         }
         <td></td>
         <td></td>
         <td></td>
       </tr>
-      {isOpen && <EquipmentList playerData={playerData} />}
+      {isOpen && <EquipmentList playerData={playerData} invalidSigilIdx={parseInt(invalidSigilIdx)} />}
     </Fragment>
   );
 };

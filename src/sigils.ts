@@ -37,19 +37,39 @@ attackSigils.forEach(sigil => {
   attackSigilTrait1Map.set(sigil.firstTrait, sigil.sigilId);
 });
 
+// export const seofonSigils: sampleSigil[] = [
+//   { firstTrait: "2452677621", sigilId: "2929560031" },
+//   { firstTrait: "2009598453", sigilId: "316658448" },
+//   { firstTrait: "4010142797", sigilId: "3302852154" },
+//   { firstTrait: "2068825210", sigilId: "1740760547" },
+//   { firstTrait: "2009598453", sigilId: "1789807503" }
+// ];
+
+// export const tweyenSigils: sampleSigil[] = [
+//   { firstTrait: "3898603744", sigilId: "3947551085" },
+//   { firstTrait: "2238888111", sigilId: "3689219015" },
+//   { firstTrait: "281214AB", sigilId: "1138615773" },
+//   { firstTrait: "2175964121", sigilId: "2959295748" },
+//   { firstTrait: "3898603744", sigilId: "2395713699" }
+// ];
+
 export const seofonSigils: sampleSigil[] = [
-  { firstTrait: "2452677621", sigilId: "2929560031" },
-  { firstTrait: "2009598453", sigilId: "316658448" },
-  { firstTrait: "4010142797", sigilId: "3302852154" },
-  { firstTrait: "2373493147", sigilId: "196723080" }
+  { firstTrait: "77c809f5", sigilId: "12dfd310" },
+  { firstTrait: "9230e3f5", sigilId: "ae9d89df" },
+  { firstTrait: "ef05ec4d", sigilId: "c50c6b8a" },
+  { firstTrait: "7b4fc47a", sigilId: "67c1e5e3" }
 ];
 
+export const dobleAwakenSeofonSigilId: string = "6aae4b8f";
+
 export const tweyenSigils: sampleSigil[] = [
-  { firstTrait: "3898603744", sigilId: "3947551085" },
-  { firstTrait: "2238888111", sigilId: "3689219015" },
-  { firstTrait: "672273579", sigilId: "1138615773" },
-  { firstTrait: "2175964121", sigilId: "2959295748" }
+  { firstTrait: "e85ff8e0", sigilId: "eb4ad96d" },
+  { firstTrait: "8572b8af", sigilId: "dbe503c7" },
+  { firstTrait: "281214ab", sigilId: "43dde5dd" },
+  { firstTrait: "81b293d9", sigilId: "b0634504" }
 ];
+
+export const dobleAwakenTweyenSigilId: string = "8ecbb0a3";
 
 [seofonSigils[0], seofonSigils[1], tweyenSigils[0], tweyenSigils[1]].forEach(sigil => {
   attackSigilIdMap.set(sigil.sigilId, sigil.firstTrait);
