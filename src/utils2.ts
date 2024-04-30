@@ -1,21 +1,37 @@
 import { toHashString, translateSigilId } from "@/utils.ts";
 import {
   attackSigilIdMap,
-  attackSigilTrait1Map, dobleAwakenSeofonSigilId,
+  attackSigilTrait1Map,
+  dobleAwakenSeofonSigilId,
   dobleAwakenTweyenSigilId,
+  heartSigilTraitMap,
   seofonSigils,
   tweyenSigils,
 } from "@/sigils.ts";
 import { PlayerData, Sigil } from "@/types.ts";
 
+const EMPTY : string = "887ae0b0";
 export const checkCheating = (player: PlayerData) => {
   const cheats : string[] = [];
 
   const CHEAT_WSTONE: string = "1";
   const CHEAT_SIGIL: string = "2";
+  const CHEAT_STAT: string = "3";
   const NP: string = "0";
   let status : string = NP;
   let invalidIdx : string = "-1";
+
+  if (player !== undefined && player.overmasteryInfo !== null){
+    const overmasteries = player.overmasteryInfo.overmasteries;
+    for (const mastery of overmasteries) {
+      const checkArrCnt = overmasteries.filter(om => om === mastery).length;
+      if (checkArrCnt > 1){
+        cheats.push("Wrightstone with trait level > 10");
+        if (status === NP) invalidIdx = "-3";
+        if (status === NP) status = CHEAT_STAT;
+      }
+    }
+  }
 
   // invalid wrightstone level
   if (player !== undefined && player.weaponInfo !== null && player.weaponInfo !== undefined){
@@ -105,7 +121,7 @@ export const checkCheating = (player: PlayerData) => {
         if (status === NP) status = CHEAT_SIGIL;
       }
 
-      const EMPTY : string = "887ae0b0";
+
 
       const isSingleSigil = sigilTrait1 === "4c588c27" ||
         sigilTrait1 === seofonSigils[3].firstTrait || sigilTrait1 === tweyenSigils[3].firstTrait;
@@ -178,6 +194,13 @@ export const checkCheating = (player: PlayerData) => {
           if (status === NP) status = CHEAT_SIGIL;
         }
       }
+
+      if (!checkInvalidSingleSigil(sigilTrait1, sigilTrait2)){
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        if (status === NP) invalidIdx = index.toString();
+        if (status === NP) status = CHEAT_SIGIL;
+      }
+
       index++;
     }
   }
@@ -186,6 +209,12 @@ export const checkCheating = (player: PlayerData) => {
   cheats.push(status);
   return cheats;
 };
+
+const checkInvalidSingleSigil = (sigilTrait1: string, sigilTrait2: string) : boolean => {
+  if (heartSigilTraitMap.get(sigilTrait2) !== undefined) return false;
+
+  return !(sigilTrait2 !== EMPTY && heartSigilTraitMap.get(sigilTrait1) !== undefined);
+}
 
 export const getDmgCap = (player: PlayerData) => {
   let dmgCap : number = 0;

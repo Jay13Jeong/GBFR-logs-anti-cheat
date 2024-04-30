@@ -84,6 +84,7 @@ export const PlayerEquipment = ({
     const checkIdx = checkInfoes[lastIndex - 1];
     const CHEAT_WSTONE: string = "1";
     const CHEAT_SIGIL: string = "2";
+    const CHEAT_STAT: string ="3";
     if (checkStatus === CHEAT_WSTONE){
       setCheatState(() => ({ status: "Cheat wStone", cheat: true }))
       setInvalidSigilIdx(() => checkIdx)
@@ -91,6 +92,10 @@ export const PlayerEquipment = ({
       const lineNo = parseInt(checkIdx) + 1;
       setCheatState(() => (
         { status: "Cheat Sigil Line " + lineNo.toString(), cheat: true }))
+      setInvalidSigilIdx(() => checkIdx)
+    } else if (checkStatus === CHEAT_STAT){
+      setCheatState(() => (
+        { status: "Cheat STAT", cheat: true }))
       setInvalidSigilIdx(() => checkIdx)
     } else {
       setCheatState(() => ({ status: "Ok", cheat: false }))

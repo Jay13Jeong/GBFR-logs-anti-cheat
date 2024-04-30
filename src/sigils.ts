@@ -1,6 +1,13 @@
+import { toHashString } from "@/utils.ts";
+
 interface sampleSigil {
   firstTrait: string;
   sigilId: string;
+}
+
+interface sampleDecSigil {
+  firstTrait: number;
+  sigilId: number;
 }
 
 export const attackSigilIdMap = new Map<string, string>();
@@ -8,28 +15,28 @@ export const attackSigilTrait1Map = new Map<string, string>();
 
 // 예제 데이터
 const attackSigils: sampleSigil[] = [
-  { firstTrait: "3FFFA48D", sigilId: "A30B71CE" },
-  { firstTrait: "2FC67C8F", sigilId: "E8823B59" },
-  { firstTrait: "C0A73AFB", sigilId: "9D7EDD66" },
-  { firstTrait: "6B769B25", sigilId: "C08D85EA" },
-  { firstTrait: "721B6EDB", sigilId: "A4C54E2C" },
-  { firstTrait: "8F9262D5", sigilId: "F64D2A29" },
-  { firstTrait: "DC175BC0", sigilId: "55067468" },
-  { firstTrait: "EB29E3DB", sigilId: "02AA5952" },
-  { firstTrait: "3FF08C70", sigilId: "5A8BC1F3" },
-  { firstTrait: "F167C2C1", sigilId: "6A2ECCB3" },
-  { firstTrait: "A83A97B4", sigilId: "0131A7CC" },
-  { firstTrait: "01C89F53", sigilId: "02C9E42E" },
-  { firstTrait: "C3A5AC23", sigilId: "824E2BD0" },
-  { firstTrait: "844D5B80", sigilId: "920F41C1" },
-  { firstTrait: "B3CE3EED", sigilId: "B859C942" },
-  { firstTrait: "8CC71ADF", sigilId: "B50BB945" },
-  { firstTrait: "4F0C7E43", sigilId: "C411E5FA" },
-  { firstTrait: "AA44ABAD", sigilId: "39D8D7AC" },
-  { firstTrait: "3F303940", sigilId: "524FEE30" },
-  { firstTrait: "7C66AB04", sigilId: "A26F553E" },
-  { firstTrait: "8313FEAD", sigilId: "537FDADF" },
-  { firstTrait: "A8EC68CB", sigilId: "1D38CDDD" }
+  { firstTrait: "3fffa48d", sigilId: "a30b71ce" },
+  { firstTrait: "2fc67c8f", sigilId: "e8823b59" },
+  { firstTrait: "c0a73afb", sigilId: "9d7edd66" },
+  { firstTrait: "6b769b25", sigilId: "c08d85ea" },
+  { firstTrait: "721b6edb", sigilId: "a4c54e2c" },
+  { firstTrait: "8f9262d5", sigilId: "f64d2a29" },
+  { firstTrait: "dc175bc0", sigilId: "55067468" },
+  { firstTrait: "eb29e3db", sigilId: "02aa5952" },
+  { firstTrait: "3ff08c70", sigilId: "5a8bc1f3" },
+  { firstTrait: "f167c2c1", sigilId: "6a2eccb3" },
+  { firstTrait: "a83a97b4", sigilId: "0131a7cc" },
+  { firstTrait: "01c89f53", sigilId: "02c9e42e" },
+  { firstTrait: "c3a5ac23", sigilId: "824e2bd0" },
+  { firstTrait: "844d5b80", sigilId: "920f41c1" },
+  { firstTrait: "b3ce3eed", sigilId: "b859c942" },
+  { firstTrait: "8cc71adf", sigilId: "b50bb945" },
+  { firstTrait: "4f0c7e43", sigilId: "c411e5fa" },
+  { firstTrait: "aa44abad", sigilId: "39d8d7ac" },
+  { firstTrait: "3f303940", sigilId: "524fee30" },
+  { firstTrait: "7c66ab04", sigilId: "a26f553e" },
+  { firstTrait: "8313fead", sigilId: "537fdadf" },
+  { firstTrait: "a8ec68cb", sigilId: "1d38cddd" }
 ];
 
 attackSigils.forEach(sigil => {
@@ -74,4 +81,36 @@ export const dobleAwakenTweyenSigilId: string = "8ecbb0a3";
 [seofonSigils[0], seofonSigils[1], tweyenSigils[0], tweyenSigils[1]].forEach(sigil => {
   attackSigilIdMap.set(sigil.sigilId, sigil.firstTrait);
   attackSigilTrait1Map.set(sigil.firstTrait, sigil.sigilId);
+});
+
+export const heartSigilsDec: sampleDecSigil[] = [
+  { firstTrait: 3671987420, sigilId: 2603305871},
+  { firstTrait: 2600336030, sigilId: 1645882007},
+  { firstTrait: 3614395684, sigilId: 395400303},
+  { firstTrait: 3221316531, sigilId: 2755787601},
+  { firstTrait: 239255067, sigilId: 2088681555},
+  { firstTrait: 2233052490, sigilId: 2982223883},
+  { firstTrait: 3092382396, sigilId: 885485713},
+  { firstTrait: 251817200, sigilId: 2217767143},
+  { firstTrait: 2738476610, sigilId: 1081314525},
+  { firstTrait: 4258376996, sigilId: 4145664405},
+  { firstTrait: 1662438379, sigilId: 3849363521},
+  { firstTrait: 3640028188, sigilId: 1032687881},
+  { firstTrait: 3125822983, sigilId: 1300006450},
+  { firstTrait: 3352525297, sigilId: 1158383148},
+  { firstTrait: 3870895668, sigilId: 1605911268},
+  { firstTrait: 3673144103, sigilId: 3561523741},
+  { firstTrait: 1326666263, sigilId: 1718928953},
+  { firstTrait: 3623467912, sigilId: 1493965256},
+  { firstTrait: 2959386164, sigilId: 2849506516}
+];
+
+export const heartSigilMap = new Map<string, string>();
+export const heartSigilTraitMap = new Map<string, string>();
+
+heartSigilsDec.forEach(sigil => {
+  const trait1Hex = toHashString(sigil.firstTrait ?? 0);
+  const sigilIdHex = toHashString(sigil.firstTrait ?? 0);
+  heartSigilMap.set(sigilIdHex, trait1Hex);
+  heartSigilTraitMap.set(trait1Hex, sigilIdHex);
 });
