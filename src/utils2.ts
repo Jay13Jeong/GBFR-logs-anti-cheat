@@ -26,7 +26,7 @@ export const checkCheating = (player: PlayerData) => {
     for (const mastery of overmasteries) {
       const checkArrCnt = overmasteries.filter(om => om === mastery).length;
       if (checkArrCnt > 1){
-        cheats.push("Wrightstone with trait level > 10");
+        cheats.push("Wrightstone\nwith trait level > 10");
         if (status === NP) invalidIdx = "-3";
         if (status === NP) status = CHEAT_STAT;
       }
@@ -36,17 +36,17 @@ export const checkCheating = (player: PlayerData) => {
   // invalid wrightstone level
   if (player !== undefined && player.weaponInfo !== null && player.weaponInfo !== undefined){
     if ((player.weaponInfo.trait1Level ?? 0) > 10) {
-      cheats.push("Wrightstone with trait level > 10");
+      cheats.push("Wrightstone\nwith trait level > 10");
       if (status === NP) invalidIdx = "-2";
       if (status === NP) status = CHEAT_WSTONE;
     }
     if ((player.weaponInfo.trait2Level ?? 0) > 7) {
-      cheats.push("Wrightstone with trait level > 7");
+      cheats.push("Wrightstone\nwith trait level > 7");
       if (status === NP) invalidIdx = "-2";
       if (status === NP) status = CHEAT_WSTONE;
     }
     if ((player.weaponInfo.trait3Level ?? 0) > 5) {
-      cheats.push("Wrightstone with trait level > 5");
+      cheats.push("Wrightstone\nwith trait level > 5");
       if (status === NP) invalidIdx = "-2";
       if (status === NP) status = CHEAT_WSTONE;
     }
@@ -84,7 +84,7 @@ export const checkCheating = (player: PlayerData) => {
       notAllowedWrightstone.includes(toHashString(player.weaponInfo.trait3Id ?? 0));
 
     if (hasCheatedWrightStone) {
-      cheats.push("Wrightstone with invalid trait");
+      cheats.push("Wrightstone\nwith invalid trait");
       if (status === NP) invalidIdx = "-2";
       if (status === NP) status = CHEAT_WSTONE;
     }
@@ -109,14 +109,14 @@ export const checkCheating = (player: PlayerData) => {
 
       const isLucySigil = sigilTrait1 === "dbe1d775" || sigilTrait1 === "8d2adb6e" || sigilTrait1 === "5c862e13";
       if (isLucySigil && sigilTrait2 !== "dc584f60") {
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
 
       const isLucySigil2 = sigilTrait2 === "dbe1d775" || sigilTrait2 === "8d2adb6e" || sigilTrait2 === "5c862e13";
       if (isLucySigil2) {
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
@@ -129,7 +129,7 @@ export const checkCheating = (player: PlayerData) => {
         sigilTrait2 === seofonSigils[3].firstTrait || sigilTrait2 === tweyenSigils[3].firstTrait ||
         sigilTrait2 === "57ab5b10" || sigilTrait2 === "ec1c6779" || sigilTrait2 === "a1a8e39d"; //추뎀,프닷,움무;
       if ((isSingleSigil && sigilTrait2 !== EMPTY) || isSingleSigil2) {
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
@@ -138,28 +138,28 @@ export const checkCheating = (player: PlayerData) => {
 
       const isFOFPlusSigil = sigilId === "0a4651bb";
       if (isFOFPlusSigil && sigilTrait2 === EMPTY){
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait\nThe ID is "V+", but actually "V".`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
 
       const isFOFSigil = sigilId === "f3336835";
       if (isFOFSigil && sigilTrait2 !== EMPTY){
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait\nThe ID is "V", but actually "V+".`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
 
       const isSupplementarySigil = sigilId === "42bb0c1c";
       if (isSupplementarySigil && sigilTrait2 !== EMPTY){
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait\nThe ID is "V", but actually "V+".`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
 
       const isSupplementaryPlusSigil = sigilId === "035a4ddd";
       if (isSupplementaryPlusSigil && sigilTrait2 === EMPTY){
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait\nThe ID is "V+", but actually "V".`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
@@ -169,7 +169,7 @@ export const checkCheating = (player: PlayerData) => {
       //진 아이디가 v+일때.
       if (sigilRealTrait !== undefined){
         if (sigilTrait2 === EMPTY){
-          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid trait`);
+          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid trait`);
           if (status === NP) invalidIdx = index.toString();
           if (status === NP) status = CHEAT_SIGIL;
         }
@@ -180,7 +180,7 @@ export const checkCheating = (player: PlayerData) => {
         if ((sigilId !== sigilRealId) &&
           !((seofonSigils[0].firstTrait === sigilTrait1 && dobleAwakenSeofonSigilId === sigilId) ||
             (tweyenSigils[0].firstTrait === sigilTrait1 && dobleAwakenTweyenSigilId === sigilId))) {
-          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
           if (status === NP) invalidIdx = index.toString();
           if (status === NP) status = CHEAT_SIGIL;
         }
@@ -189,14 +189,14 @@ export const checkCheating = (player: PlayerData) => {
       const regenSigilHex : string = "6085da25";
       if (sigilTrait1 === seofonSigils[2].firstTrait || sigilTrait1 === tweyenSigils[2].firstTrait){
         if (sigilTrait2 !== regenSigilHex){
-          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+          cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
           if (status === NP) invalidIdx = index.toString();
           if (status === NP) status = CHEAT_SIGIL;
         }
       }
 
       if (!checkInvalidSingleSigil(sigilTrait1, sigilTrait2)){
-        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)} with invalid second trait`);
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
       }
