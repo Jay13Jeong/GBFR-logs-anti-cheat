@@ -225,27 +225,27 @@ interface DmgCap {
 const DmgCaps: DmgCap[] = [
   { characterType: "Pl0000", maxDmg: 77350, name: "グラン"},
   { characterType: "Pl0100", maxDmg: 77350, name: "ジータ"},
-  { characterType: "Pl0200", maxDmg: 77350, name: "カタリナ"},
-  { characterType: "Pl0300", maxDmg: 15450, name: "ラカム"},
-  { characterType: "Pl0400", maxDmg: 77350, name: "イオ"},
+  { characterType: "Pl0200", maxDmg: 96600, name: "カタリナ"},
+  { characterType: "Pl0300", maxDmg: 18550, name: "ラカム"},
+  { characterType: "Pl0400", maxDmg: 355500, name: "イオ"},
   { characterType: "Pl0500", maxDmg: 115950, name: "オイゲン"},
   { characterType: "Pl0600", maxDmg: 77350, name: "ロゼッタ"},
-  { characterType: "Pl0700", maxDmg: 115950, name: "フェリ"},
-  { characterType: "Pl0800", maxDmg: 30950, name: "ランスロット"},
+  { characterType: "Pl0700", maxDmg: 133350, name: "フェリ"},
+  { characterType: "Pl0800", maxDmg: 34000, name: "ランスロット"},
   { characterType: "Pl0900", maxDmg: 177750, name: "ヴェイン"},
   { characterType: "Pl1000", maxDmg: 154650, name: "パーシヴァル"},
   { characterType: "Pl1100", maxDmg: 154650, name: "ジークフリート"},
   { characterType: "Pl1200", maxDmg: 54150, name: "シャルロッテ"},
   { characterType: "Pl1300", maxDmg: 30950, name: "ヨダルラーハ"},
-  { characterType: "Pl1400", maxDmg: 61850, name: "ナルメア"},
+  { characterType: "Pl1400", maxDmg: 71100, name: "ナルメア"},
   { characterType: "Pl1500", maxDmg: 77350, name: "ガンダゴウザ"},
   { characterType: "Pl1600", maxDmg: 215550, name: "ゼタ"},
-  { characterType: "Pl1700", maxDmg: 150750, name: "バザラガ"},
-  { characterType: "Pl1800", maxDmg: 77350, name: "カリオストロ"},
+  { characterType: "Pl1700", maxDmg: 164750, name: "バザラガ"},
+  { characterType: "Pl1800", maxDmg: 88870, name: "カリオストロ"},
   { characterType: "Pl1900", maxDmg: 177950, name: "イド"},
   { characterType: "Pl2100", maxDmg: 222222, name: "サンダルフォン"},
-  { characterType: "Pl2200", maxDmg: 92750, name: "シエテ"},
-  { characterType: "Pl2300", maxDmg: 27550, name: "ソーン"}
+  { characterType: "Pl2200", maxDmg: 111300, name: "シエテ"},
+  { characterType: "Pl2300", maxDmg: 29750, name: "ソーン"}
 ];
 
 const characterToDmgCapMap = new Map<CharacterType, number>();
