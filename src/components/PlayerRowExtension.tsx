@@ -1,11 +1,11 @@
-import { PlayerData } from "@/types";
+import { ComputedPlayerState, PlayerData } from "@/types";
 import {
   EMPTY_ID,
   translateSigilId, translateTraitId,
 } from "@/utils";
 import { Fragment, useEffect, useState } from "react";
 import {
-  checkCheating,
+  checkCheating, checkDmgCap,
   // getSupDmgPlusCount
 } from "@/utils2.ts";
 import { t } from "i18next";
@@ -117,5 +117,48 @@ export const PlayerEquipment = ({
       </tr>
       {isOpen && <EquipmentList playerData={playerData} invalidSigilIdx={parseInt(invalidSigilIdx)} />}
     </Fragment>
+  );
+};
+
+export const DmgCheckRow = ({
+                            player,
+                            partyData,
+                          }: {
+  player: ComputedPlayerState;
+  partyData: Array<PlayerData | null>;
+}) => {
+  const partySlotIndex = partyData.findIndex((partyMember) => partyMember?.actorIndex === player.index);
+  const [DmgChecker, setDmgChecker] = useState({status: "", cheat: false});
+  const [characterType, setCharacterType] = useState<string>("");
+  const playerData = partyData[partySlotIndex];
+
+  useEffect(() => {
+    dmgCheckAsync();
+    const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
+    setCharacterType(() => characterTypeResult);
+  }, [player]);
+
+  const dmgCheckAsync = async () => {
+    setDmgChecker(() => ({status: "", cheat: false}));
+    if (!checkDmgCap(player, playerData!)){
+      setDmgChecker(() => ({status: "Dmg Cheat", cheat: true}));
+    }
+  }
+
+  return (
+    <>
+    {DmgChecker.cheat ?
+      <Fragment>
+        <tr className={`player-row`}>
+          <td style={{ backgroundColor: 'red' }}>{playerData?.displayName} ({characterType}) ({DmgChecker.status})</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </Fragment>
+      :
+      null
+    }
+    </>
   );
 };

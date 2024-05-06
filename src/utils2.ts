@@ -8,7 +8,7 @@ import {
   seofonSigils,
   tweyenSigils,
 } from "@/sigils.ts";
-import { PlayerData, Sigil } from "@/types.ts";
+import { CharacterType, ComputedPlayerState, PlayerData, Sigil } from "@/types.ts";
 
 const EMPTY : string = "887ae0b0";
 export const checkCheating = (player: PlayerData) => {
@@ -26,7 +26,7 @@ export const checkCheating = (player: PlayerData) => {
     for (const mastery of overmasteries) {
       const checkArrCnt = overmasteries.filter(om => om === mastery).length;
       if (checkArrCnt > 1){
-        cheats.push("Wrightstone\nwith trait level > 10");
+        cheats.push("Duplicate Overmasteries");
         if (status === NP) invalidIdx = "-3";
         if (status === NP) status = CHEAT_STAT;
       }
@@ -216,16 +216,74 @@ const checkInvalidSingleSigil = (sigilTrait1: string, sigilTrait2: string) : boo
   return !(sigilTrait2 !== EMPTY && heartSigilTraitMap.get(sigilTrait1) !== undefined);
 }
 
-export const getDmgCap = (player: PlayerData) => {
-  let dmgCap : number = 0;
-  dmgCap = 2e9; ////////////////////////////////////
+interface DmgCap {
+  characterType: CharacterType;
+  maxDmg: number;
+  name: string;
+}
 
-  // to do // Get dmg cap through the sigils
-  for (const sigil of player.sigils) {
-    sigil.sigilId
+const DmgCaps: DmgCap[] = [
+  { characterType: "Pl0000", maxDmg: 77350, name: "グラン"},
+  { characterType: "Pl0100", maxDmg: 77350, name: "ジータ"},
+  { characterType: "Pl0200", maxDmg: 77350, name: "カタリナ"},
+  { characterType: "Pl0300", maxDmg: 15450, name: "ラカム"},
+  { characterType: "Pl0400", maxDmg: 74950, name: "イオ"},
+  { characterType: "Pl0500", maxDmg: 115950, name: "オイゲン"},
+  { characterType: "Pl0600", maxDmg: 77350, name: "ロゼッタ"},
+  { characterType: "Pl0700", maxDmg: 115950, name: "フェリ"},
+  { characterType: "Pl0800", maxDmg: 30950, name: "ランスロット"},
+  { characterType: "Pl0900", maxDmg: 177750, name: "ヴェイン"},
+  { characterType: "Pl1000", maxDmg: 154650, name: "パーシヴァル"},
+  { characterType: "Pl1100", maxDmg: 154650, name: "ジークフリート"},
+  { characterType: "Pl1200", maxDmg: 54100, name: "シャルロッテ"},
+  { characterType: "Pl1300", maxDmg: 30950, name: "ヨダルラーハ"},
+  { characterType: "Pl1400", maxDmg: 61800, name: "ナルメア"},
+  { characterType: "Pl1500", maxDmg: 77300, name: "ガンダゴウザ"},
+  { characterType: "Pl1600", maxDmg: 215550, name: "ゼタ"},
+  { characterType: "Pl1700", maxDmg: 150750, name: "バザラガ"},
+  { characterType: "Pl1800", maxDmg: 77350, name: "カリオストロ"},
+  { characterType: "Pl1900", maxDmg: 177950, name: "イド"},
+  { characterType: "Pl2100", maxDmg: 222222, name: "サンダルフォン"},
+  { characterType: "Pl2200", maxDmg: 92750, name: "シエテ"},
+  { characterType: "Pl2300", maxDmg: 27550, name: "ソーン"}
+];
+
+const characterToDmgCapMap = new Map<CharacterType, number>();
+
+DmgCaps.forEach(dmgCap => {
+  characterToDmgCapMap.set(dmgCap.characterType, dmgCap.maxDmg);
+});
+
+export const checkDmgCap = (player: ComputedPlayerState, playerData: PlayerData) : boolean => {
+  const totalDamage = player.skillBreakdown.reduce((acc, skill) => acc + skill.totalDamage, 0);
+  const computedSkills = player.skillBreakdown.map((skill) => {
+    return {
+      percentage: (skill.totalDamage / totalDamage) * 100,
+      ...skill,
+    };
+  });
+  computedSkills.sort((a, b) => b.totalDamage - a.totalDamage);
+
+  for (const skill of computedSkills){
+    if (skill.maxDamage === null) continue;
+    //attack1만나면 if걸고 break
+    const maxDmg = skill.maxDamage!;
+    const characterType : CharacterType = playerData.characterType;
+    // const skillName = getSkillName(characterType, skill);
+    const actionType = skill.actionType as { Normal: number };
+    const skillID = actionType["Normal"];
+
+    if (skillID === 100){
+      const dmgCap = characterToDmgCapMap.get(characterType);
+      if (dmgCap !== undefined && maxDmg > dmgCap){
+        return false;
+      }
+      break;
+    }
   }
+  // to do // Get dmg cap through the sigils
 
-  return dmgCap;
+  return true;
 }
 
 export const getSupDmgPlusCount = (sigils :  Sigil[]) => {

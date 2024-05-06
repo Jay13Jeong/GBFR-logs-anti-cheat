@@ -4,7 +4,7 @@ import { useMeterSettingsStore } from "../stores/useMeterSettingsStore";
 import { ComputedPlayerState, EncounterState, MeterColumns, PlayerData, SortDirection, SortType } from "../types";
 import { formatInPartyOrder, sortPlayers } from "../utils";
 import { PlayerRow } from "./PlayerRow";
-import { PlayerEquipment } from "@/components/PlayerRowExtension.tsx";
+import { DmgCheckRow, PlayerEquipment } from "@/components/PlayerRowExtension.tsx";
 
 export const Table = ({
   live = false,
@@ -79,6 +79,9 @@ export const Table = ({
         </tr>
       </thead>
       <tbody>
+        {players.map((player) => (
+          <DmgCheckRow key={player.index} player={player} partyData={partyData} />
+        ))}
         {players.map((player) => (
           <PlayerRow live={live} key={player.index} player={player} partyData={partyData} />
         ))}
