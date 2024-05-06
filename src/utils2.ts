@@ -269,7 +269,6 @@ export const checkDmgCap = (player: ComputedPlayerState, playerData: PlayerData)
     //attack1만나면 if걸고 break
     const maxDmg = skill.maxDamage!;
     const characterType : CharacterType = playerData.characterType;
-    // const skillName = getSkillName(characterType, skill);
     const actionType = skill.actionType as { Normal: number };
     const skillID = actionType["Normal"];
 
