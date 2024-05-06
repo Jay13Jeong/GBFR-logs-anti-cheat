@@ -227,7 +227,7 @@ const DmgCaps: DmgCap[] = [
   { characterType: "Pl0100", maxDmg: 77350, name: "ジータ"},
   { characterType: "Pl0200", maxDmg: 77350, name: "カタリナ"},
   { characterType: "Pl0300", maxDmg: 15450, name: "ラカム"},
-  { characterType: "Pl0400", maxDmg: 74950, name: "イオ"},
+  { characterType: "Pl0400", maxDmg: 77350, name: "イオ"},
   { characterType: "Pl0500", maxDmg: 115950, name: "オイゲン"},
   { characterType: "Pl0600", maxDmg: 77350, name: "ロゼッタ"},
   { characterType: "Pl0700", maxDmg: 115950, name: "フェリ"},
