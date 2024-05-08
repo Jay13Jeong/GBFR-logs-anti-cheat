@@ -7,7 +7,7 @@
 
 - Added cheat detection functionality for GBFR version 1.2.1.
 - This program identifies the potential for cheating among party members.
-- ** If there is a wrong detection while using this, please leave your comment [here](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/discussions).
+- ** If there is a wrong detection while using this, please leave your comment [here](https://github.com/Jay13Jeong/GBFR-logs-anti-cheat/issues).
 - This project was developed based on [false-spring/gbfr-logs](https://github.com/false-spring/gbfr-logs).
 
 ## How to install
