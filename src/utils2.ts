@@ -254,7 +254,7 @@ DmgCaps.forEach(dmgCap => {
   characterToDmgCapMap.set(dmgCap.characterType, dmgCap.maxDmg);
 });
 
-export const checkDmgCap = (player: ComputedPlayerState, playerData: PlayerData) : boolean => {
+export const checkDmgCap = (player: ComputedPlayerState, playerData: PlayerData, dmgBuff: number = 1.0) : boolean => {
   const totalDamage = player.skillBreakdown.reduce((acc, skill) => acc + skill.totalDamage, 0);
   const computedSkills = player.skillBreakdown.map((skill) => {
     return {
@@ -266,15 +266,14 @@ export const checkDmgCap = (player: ComputedPlayerState, playerData: PlayerData)
 
   for (const skill of computedSkills){
     if (skill.maxDamage === null) continue;
-    //attack1만나면 if걸고 break
-    const maxDmg = skill.maxDamage!;
     const characterType : CharacterType = playerData.characterType;
+    const maxDmg = skill.maxDamage!;
     const actionType = skill.actionType as { Normal: number };
     const skillID = actionType["Normal"];
 
     if (skillID === 100){
       const dmgCap = characterToDmgCapMap.get(characterType);
-      if (dmgCap !== undefined && maxDmg > dmgCap){
+      if (dmgCap !== undefined && maxDmg > (dmgCap * dmgBuff)){
         return false;
       }
       break;
@@ -304,3 +303,17 @@ export const checkCheatingController = (player: PlayerData) => {
 
   return checkInfo.slice(0, lastIndex).join("\n");
 };
+
+export const checkDmgBuff = (partyData : Array<PlayerData | null>) => {
+  for (const player of partyData){
+    if (player === null) continue;
+    if ((player.characterType as string) === "Pl0200"){
+      for (const sigil of player.sigils) {
+        if (sigil.firstTraitId === 2600336030 || sigil.secondTraitId === 2600336030){
+          return 1.25;
+        }
+      }
+    }
+  }
+  return 1.0;
+}

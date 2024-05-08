@@ -5,7 +5,7 @@ import {
 } from "@/utils";
 import { Fragment, useEffect, useState } from "react";
 import {
-  checkCheating, checkDmgCap,
+  checkCheating, checkDmgBuff, checkDmgCap,
   // getSupDmgPlusCount
 } from "@/utils2.ts";
 import { t } from "i18next";
@@ -140,7 +140,8 @@ export const DmgCheckRow = ({
 
   const dmgCheckAsync = async () => {
     setDmgChecker(() => ({status: "", cheat: false}));
-    if (!checkDmgCap(player, playerData!)){
+    const dmgBuff : number = checkDmgBuff(partyData);
+    if (!checkDmgCap(player, playerData!, dmgBuff)){
       setDmgChecker(() => ({status: "Dmg Cheat", cheat: true}));
     }
   }
