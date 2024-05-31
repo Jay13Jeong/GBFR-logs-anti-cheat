@@ -102,7 +102,8 @@ export const heartSigilsDec: sampleDecSigil[] = [
   { firstTrait: 3673144103, sigilId: 3561523741},
   { firstTrait: 1326666263, sigilId: 1718928953},
   { firstTrait: 3623467912, sigilId: 1493965256},
-  { firstTrait: 2959386164, sigilId: 2849506516}
+  { firstTrait: 2959386164, sigilId: 2849506516},
+  { firstTrait: 1314875142, sigilId: 1566126045} //サンダルフォン
 ];
 
 export const heartSigilMap = new Map<string, string>();

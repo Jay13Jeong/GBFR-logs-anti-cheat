@@ -35,45 +35,45 @@ export const checkCheating = (player: PlayerData) => {
 
   // invalid wrightstone level
   if (player !== undefined && player.weaponInfo !== null && player.weaponInfo !== undefined){
-    if ((player.weaponInfo.trait1Level ?? 0) > 10) {
+    if ((player.weaponInfo.trait1Level ?? 0) > 20) {
+      cheats.push("Wrightstone\nwith trait level > 20");
+      if (status === NP) invalidIdx = "-2";
+      if (status === NP) status = CHEAT_WSTONE;
+    }
+    if ((player.weaponInfo.trait2Level ?? 0) > 15) {
+      cheats.push("Wrightstone\nwith trait level > 15");
+      if (status === NP) invalidIdx = "-2";
+      if (status === NP) status = CHEAT_WSTONE;
+    }
+    if ((player.weaponInfo.trait3Level ?? 0) > 10) {
       cheats.push("Wrightstone\nwith trait level > 10");
-      if (status === NP) invalidIdx = "-2";
-      if (status === NP) status = CHEAT_WSTONE;
-    }
-    if ((player.weaponInfo.trait2Level ?? 0) > 7) {
-      cheats.push("Wrightstone\nwith trait level > 7");
-      if (status === NP) invalidIdx = "-2";
-      if (status === NP) status = CHEAT_WSTONE;
-    }
-    if ((player.weaponInfo.trait3Level ?? 0) > 5) {
-      cheats.push("Wrightstone\nwith trait level > 5");
       if (status === NP) invalidIdx = "-2";
       if (status === NP) status = CHEAT_WSTONE;
     }
 
     // invalid wrightstone trait
     const notAllowedWrightstone = [
-      "57ab5b10",
-      "82ce278d",
-      "1568e0e4",
-      "70395731",
-      "cd18a77d",
-      "333e5862",
-      "a8a3163b",
-      "ec1c6779",
-      "dbe1d775",
-      "8d2adb6e",
-      "5c862e13",
-      "082033cb",
-      "1b0d9897",
-      "9ad8b5e6",
-      "40223c28",
-      "74aa75d6",
-      "dc225c96",
-      "4c588c27",
-      "5e422ae5",
-      "af794a87",
-      "a1a8e39d",
+      // "57ab5b10",
+      // "82ce278d",
+      // "1568e0e4",
+      // "70395731",
+      // "cd18a77d",
+      // "333e5862",
+      // "a8a3163b",
+      "ec1c6779", //프닷
+      "dbe1d775", //lucy1
+      "8d2adb6e", //lucy2
+      "5c862e13", //lucy3
+      // "082033cb",
+      // "1b0d9897",
+      // "9ad8b5e6",
+      // "40223c28",
+      // "74aa75d6",
+      // "dc225c96",
+      "4c588c27", //유리
+      // "5e422ae5",
+      // "af794a87",
+      "a1a8e39d", //움무
       seofonSigils[3].firstTrait,
       tweyenSigils[3].firstTrait
     ];
@@ -123,11 +123,13 @@ export const checkCheating = (player: PlayerData) => {
 
 
 
-      const isSingleSigil = sigilTrait1 === "4c588c27" ||
-        sigilTrait1 === seofonSigils[3].firstTrait || sigilTrait1 === tweyenSigils[3].firstTrait;
+      const isSingleSigil = sigilTrait1 === "4c588c27";
+      // ||
+      //   sigilTrait1 === seofonSigils[3].firstTrait || sigilTrait1 === tweyenSigils[3].firstTrait;
       const isSingleSigil2 = sigilTrait2 === "4c588c27" || //유리;
         sigilTrait2 === seofonSigils[3].firstTrait || sigilTrait2 === tweyenSigils[3].firstTrait ||
-        sigilTrait2 === "57ab5b10" || sigilTrait2 === "ec1c6779" || sigilTrait2 === "a1a8e39d"; //추뎀,프닷,움무;
+        // sigilTrait2 === "57ab5b10" || //추뎀
+        sigilTrait2 === "ec1c6779" || sigilTrait2 === "a1a8e39d"; //프닷,움무;
       if ((isSingleSigil && sigilTrait2 !== EMPTY) || isSingleSigil2) {
         cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
@@ -186,8 +188,11 @@ export const checkCheating = (player: PlayerData) => {
         }
       }
 
+      const angelTrait : string = toHashString(439285150); //サンダルフォンTrait
       const regenSigilHex : string = "6085da25";
-      if (sigilTrait1 === seofonSigils[2].firstTrait || sigilTrait1 === tweyenSigils[2].firstTrait){
+      if (sigilTrait1 === seofonSigils[2].firstTrait ||
+          sigilTrait1 === tweyenSigils[2].firstTrait ||
+          sigilTrait1 === angelTrait){
         if (sigilTrait2 !== regenSigilHex){
           cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
           if (status === NP) invalidIdx = index.toString();
@@ -210,10 +215,11 @@ export const checkCheating = (player: PlayerData) => {
   return cheats;
 };
 
-const checkInvalidSingleSigil = (sigilTrait1: string, sigilTrait2: string) : boolean => {
-  if (heartSigilTraitMap.get(sigilTrait2) !== undefined) return false;
-
-  return !(sigilTrait2 !== EMPTY && heartSigilTraitMap.get(sigilTrait1) !== undefined);
+const checkInvalidSingleSigil = (sigilTrait : string, sigilTrait2 : string) : boolean => {
+  sigilTrait;
+  // if (heartSigilTraitMap.get(sigilTrait2) !== undefined) return false;
+  // return !(sigilTrait2 !== EMPTY && heartSigilTraitMap.get(sigilTrait1) !== undefined);
+  return (heartSigilTraitMap.get(sigilTrait2) === undefined)
 }
 
 interface DmgCap {
@@ -243,7 +249,7 @@ const DmgCaps: DmgCap[] = [
   { characterType: "Pl1700", maxDmg: 164750, name: "バザラガ"},
   { characterType: "Pl1800", maxDmg: 88870, name: "カリオストロ"},
   { characterType: "Pl1900", maxDmg: 177950, name: "イド"},
-  { characterType: "Pl2100", maxDmg: 222222, name: "サンダルフォン"},
+  { characterType: "Pl2100", maxDmg: 92750, name: "サンダルフォン"},
   { characterType: "Pl2200", maxDmg: 111300, name: "シエテ"},
   { characterType: "Pl2300", maxDmg: 29750, name: "ソーン"}
 ];

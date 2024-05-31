@@ -86,7 +86,9 @@ export const Table = ({
           <PlayerRow live={live} key={player.index} player={player} partyData={partyData} />
         ))}
         {partyData.map((playerData, index) => {
-          const isEmptyUserSlot : boolean = playerData?.displayName === undefined;
+          if (playerData === null) return null;
+          if (playerData.characterType === undefined) return null;
+          const isEmptyUserSlot : boolean = playerData.displayName === undefined;
           if (isEmptyUserSlot) return null;
           return (
             <PlayerEquipment key={index} playerData={playerData} partyData={partyData} />

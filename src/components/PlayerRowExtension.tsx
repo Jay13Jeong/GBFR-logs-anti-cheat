@@ -103,6 +103,8 @@ export const PlayerEquipment = ({
     }
   };
 
+  if (characterType === "ui:characters.[object Object]") return null;
+
   return (
     <Fragment>
       <tr className={`player-row ${isOpen ? "transparent-bg" : ""}`} onClick={() => setIsOpen(!isOpen)}>
