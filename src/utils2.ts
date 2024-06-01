@@ -5,6 +5,7 @@ import {
   dobleAwakenSeofonSigilId,
   dobleAwakenTweyenSigilId,
   heartSigilTraitMap,
+  sandalphonSigils,
   seofonSigils,
   tweyenSigils,
 } from "@/sigils.ts";
@@ -74,6 +75,9 @@ export const checkCheating = (player: PlayerData) => {
       // "5e422ae5",
       // "af794a87",
       "a1a8e39d", //움무
+      "51c115d2", //super
+      "3d8153a1", //スパルタ
+      "ee85cd1f", //ベルセルク
       seofonSigils[3].firstTrait,
       tweyenSigils[3].firstTrait
     ];
@@ -93,6 +97,10 @@ export const checkCheating = (player: PlayerData) => {
   // check sigils
   if (player !== undefined){
     let index = 0;
+    const sandalphonAweakenTrait1 = toHashString(sandalphonSigils[0].firstTrait);
+    // const sandalphonAweakenSigilId1 = toHashString(sandalphonSigils[0].sigilId);
+    // const sandalphonAweakenTrait2 = toHashString(sandalphonSigils[1].firstTrait);
+    // const sandalphonAweakenSigilId2 = toHashString(sandalphonSigils[1].sigilId);
     for (const sigil of player.sigils) {
       const sigilTrait1 = toHashString(sigil.firstTraitId ?? 0);
       const sigilTrait2 = toHashString(sigil.secondTraitId ?? 0);
@@ -121,16 +129,11 @@ export const checkCheating = (player: PlayerData) => {
         if (status === NP) status = CHEAT_SIGIL;
       }
 
-
-
-      const isSingleSigil = sigilTrait1 === "4c588c27";
-      // ||
-      //   sigilTrait1 === seofonSigils[3].firstTrait || sigilTrait1 === tweyenSigils[3].firstTrait;
       const isSingleSigil2 = sigilTrait2 === "4c588c27" || //유리;
+        sigilTrait2 === "51c115d2" || sigilTrait2 === "3d8153a1" || sigilTrait2 === "ee85cd1f" || //super,スパルタ,ベルセルク
         sigilTrait2 === seofonSigils[3].firstTrait || sigilTrait2 === tweyenSigils[3].firstTrait ||
-        // sigilTrait2 === "57ab5b10" || //추뎀
         sigilTrait2 === "ec1c6779" || sigilTrait2 === "a1a8e39d"; //프닷,움무;
-      if ((isSingleSigil && sigilTrait2 !== EMPTY) || isSingleSigil2) {
+      if (isSingleSigil2) {
         cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
         if (status === NP) invalidIdx = index.toString();
         if (status === NP) status = CHEAT_SIGIL;
@@ -166,6 +169,13 @@ export const checkCheating = (player: PlayerData) => {
         if (status === NP) status = CHEAT_SIGIL;
       }
 
+      const isWarSigil = sigilId === toHashString(3666949793);
+      if (isWarSigil && sigilTrait2 !== EMPTY){
+        cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait\nThe ID is "V", but actually "V+".`);
+        if (status === NP) invalidIdx = index.toString();
+        if (status === NP) status = CHEAT_SIGIL;
+      }
+
       const sigilRealTrait = attackSigilIdMap.get(sigilId);
       const sigilRealId = attackSigilTrait1Map.get(sigilTrait1);
       //진 아이디가 v+일때.
@@ -179,9 +189,11 @@ export const checkCheating = (player: PlayerData) => {
       //진 구성이 v+일때.
       if (sigilRealId !== undefined && sigilTrait2 !== EMPTY){
         // if
+        const dobleAwakenSandalphonSigilId : string = toHashString(3099872606);
         if ((sigilId !== sigilRealId) &&
           !((seofonSigils[0].firstTrait === sigilTrait1 && dobleAwakenSeofonSigilId === sigilId) ||
-            (tweyenSigils[0].firstTrait === sigilTrait1 && dobleAwakenTweyenSigilId === sigilId))) {
+            (tweyenSigils[0].firstTrait === sigilTrait1 && dobleAwakenTweyenSigilId === sigilId) ||
+            (sandalphonAweakenTrait1 === sigilTrait1 && dobleAwakenSandalphonSigilId === sigilId))) {
           cheats.push(`Modified sigil:\n${translateSigilId(sigil.sigilId)}\nwith invalid second trait`);
           if (status === NP) invalidIdx = index.toString();
           if (status === NP) status = CHEAT_SIGIL;

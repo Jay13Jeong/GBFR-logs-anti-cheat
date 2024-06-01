@@ -60,7 +60,7 @@ attackSigils.forEach(sigil => {
 //   { firstTrait: "3898603744", sigilId: "2395713699" }
 // ];
 
-export const seofonSigils: sampleSigil[] = [
+export const seofonSigils: sampleSigil[] = [ //aweakeningSigil,heartSigil
   { firstTrait: "77c809f5", sigilId: "12dfd310" },
   { firstTrait: "9230e3f5", sigilId: "ae9d89df" },
   { firstTrait: "ef05ec4d", sigilId: "c50c6b8a" },
@@ -69,7 +69,7 @@ export const seofonSigils: sampleSigil[] = [
 
 export const dobleAwakenSeofonSigilId: string = "6aae4b8f";
 
-export const tweyenSigils: sampleSigil[] = [
+export const tweyenSigils: sampleSigil[] = [ //aweakeningSigil,heartSigil
   { firstTrait: "e85ff8e0", sigilId: "eb4ad96d" },
   { firstTrait: "8572b8af", sigilId: "dbe503c7" },
   { firstTrait: "281214ab", sigilId: "43dde5dd" },
@@ -81,6 +81,16 @@ export const dobleAwakenTweyenSigilId: string = "8ecbb0a3";
 [seofonSigils[0], seofonSigils[1], tweyenSigils[0], tweyenSigils[1]].forEach(sigil => {
   attackSigilIdMap.set(sigil.sigilId, sigil.firstTrait);
   attackSigilTrait1Map.set(sigil.firstTrait, sigil.sigilId);
+});
+
+export const sandalphonSigils: sampleDecSigil[] = [
+  { firstTrait: 3557629595, sigilId: 1050940235 }, //AweakeningSigil1
+  { firstTrait: 360738300, sigilId: 2117751459 }   //AweakeningSigil2
+];
+
+sandalphonSigils.forEach(sigil => {
+  attackSigilIdMap.set(toHashString(sigil.sigilId), toHashString(sigil.firstTrait));
+  attackSigilTrait1Map.set(toHashString(sigil.firstTrait), toHashString(sigil.sigilId));
 });
 
 export const heartSigilsDec: sampleDecSigil[] = [
@@ -103,7 +113,7 @@ export const heartSigilsDec: sampleDecSigil[] = [
   { firstTrait: 1326666263, sigilId: 1718928953},
   { firstTrait: 3623467912, sigilId: 1493965256},
   { firstTrait: 2959386164, sigilId: 2849506516},
-  { firstTrait: 1314875142, sigilId: 1566126045} //サンダルフォン
+  { firstTrait: 1314875142, sigilId: 1566126045} //サンダルフォンHeart
 ];
 
 export const heartSigilMap = new Map<string, string>();
