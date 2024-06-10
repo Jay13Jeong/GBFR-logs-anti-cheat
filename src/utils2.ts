@@ -324,7 +324,6 @@ export const checkDmgDPS = (
       break;
     }
   }
-
   return "";
 }
 

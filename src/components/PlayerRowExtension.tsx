@@ -142,7 +142,7 @@ export const DmgCheckRow = ({
   const [DmgChecker, setDmgChecker] = useState({status: "", cheat: false});
   const [characterType, setCharacterType] = useState<string>("");
   const playerData = partyData[partySlotIndex];
-  const [calcStatus, setCalcStatus] = useState("");
+  // const [calcStatus, setCalcStatus] = useState("");
 
   useEffect(() => {
     dmgCheckAsync();
