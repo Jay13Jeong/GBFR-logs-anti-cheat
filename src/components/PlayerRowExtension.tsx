@@ -5,7 +5,16 @@ import {
 } from "@/utils";
 import { Fragment, useEffect, useState } from "react";
 import {
-  checkCheating, checkDmgBuff, checkDmgCap,
+  characterToBaseDmgCapMap,
+  characterToBaseLinkDmgCapMap, checkAlpha,
+  checkBoundary,
+  checkCheating,
+  checkDmgBuff,
+  checkDmgDPS, checkGamma,
+  checkGlassCannon,
+  checkNormalDmgOverMst,
+  checkSuperJust,
+  checkWarElmt, checkWarpath,
   // getSupDmgPlusCount
 } from "@/utils2.ts";
 import { t } from "i18next";
@@ -133,6 +142,7 @@ export const DmgCheckRow = ({
   const [DmgChecker, setDmgChecker] = useState({status: "", cheat: false});
   const [characterType, setCharacterType] = useState<string>("");
   const playerData = partyData[partySlotIndex];
+  const [calcStatus, setCalcStatus] = useState("");
 
   useEffect(() => {
     dmgCheckAsync();
@@ -142,11 +152,50 @@ export const DmgCheckRow = ({
 
   const dmgCheckAsync = async () => {
     setDmgChecker(() => ({status: "", cheat: false}));
+    const zetaDmg = playerData!.characterType === "Pl1600" ? 1.0627 : 1 //arvess
     const dmgBuff : number = checkDmgBuff(partyData);
-    if (!checkDmgCap(player, playerData!, dmgBuff)){
-      setDmgChecker(() => ({status: "Dmg Cheat", cheat: true}));
+    const djeetaDmg = dmgBuff !== 0 &&
+      (playerData!.characterType === "Pl0000" || playerData!.characterType === "Pl0100") ? 1.25 : 1 //kataBuff except
+    const baseCap = characterToBaseDmgCapMap.get(playerData!.characterType);
+    const baseLinkCap = characterToBaseLinkDmgCapMap.get(playerData!.characterType);
+    const dmgCap : number = 2.5;
+    const normalCap : number = 0.74;
+    let superJustCap : number = 0;
+    let glassCannonCap : number = 0;
+    let overMstCap : number = 0;
+    let warElmt : number = 0;
+    let warPath : number = 0;
+    let boundary : number = 0;
+    let gamma : number = 0;
+    let alpha : number = 0;
+
+    if (baseCap === undefined || baseLinkCap === undefined){
+      setDmgChecker(() => ({status: "Unregistered", cheat: true}));
+      return;
+    }
+    if (playerData !== null){
+      superJustCap = parseFloat(checkSuperJust(playerData).toFixed(2));
+      glassCannonCap = parseFloat(checkGlassCannon(playerData).toFixed(2));
+      overMstCap = parseFloat(checkNormalDmgOverMst(playerData).toFixed(2));
+      warElmt = parseFloat(checkWarElmt(playerData).toFixed(2));
+      warPath = parseFloat(checkWarpath(playerData).toFixed(2));
+      boundary = parseFloat(checkBoundary(playerData).toFixed(2));
+      // setCalcStatus(() => "super: " + superJustCap + ", glass: " + glassCannonCap + ", normal: " +
+      // normalCap + ", warElmet: " + warElmt + ", warPath: " + warPath + ", boundary: " + boundary)
+      gamma = parseFloat(checkGamma(playerData).toFixed(2));
+      alpha = parseFloat(checkAlpha(playerData).toFixed(2));
+    }
+
+    const finalDmgCap = (baseCap + (baseCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + dmgBuff)) +
+      (baseCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg;
+    const finalLinkDmgCap = (baseLinkCap + (baseLinkCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + dmgBuff)) +
+      (baseLinkCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg;
+    const checkResult : string = checkDmgDPS(player, playerData!, finalDmgCap, finalLinkDmgCap);
+    if (checkResult !== "") {
+      setDmgChecker(() => ({status: checkResult + " Cheat", cheat: true}));
     }
   }
+
 
   return (
     <>
@@ -154,7 +203,9 @@ export const DmgCheckRow = ({
       <Fragment>
         <tr className={`player-row`}>
           <td style={{ backgroundColor: 'red' }}>{playerData?.displayName} ({characterType}) ({DmgChecker.status})</td>
-          <td></td>
+          <td>
+            {/*{calcStatus}*/}
+          </td>
           <td></td>
           <td></td>
         </tr>
@@ -165,3 +216,4 @@ export const DmgCheckRow = ({
     </>
   );
 };
+
