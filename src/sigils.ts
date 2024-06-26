@@ -102,7 +102,7 @@ export const heartSigilsDec: sampleDecSigil[] = [
   { firstTrait: 2233052490, sigilId: 2982223883},
   { firstTrait: 3092382396, sigilId: 885485713},
   { firstTrait: 251817200, sigilId: 2217767143},
-  { firstTrait: 2738476610, sigilId: 1081314525},
+  { firstTrait: 2738476610, sigilId: 1081314525}, //ferryHeart
   { firstTrait: 4258376996, sigilId: 4145664405},
   { firstTrait: 1662438379, sigilId: 3849363521},
   { firstTrait: 3640028188, sigilId: 1032687881},
@@ -120,8 +120,8 @@ export const heartSigilMap = new Map<string, string>();
 export const heartSigilTraitMap = new Map<string, string>();
 
 heartSigilsDec.forEach(sigil => {
-  const trait1Hex = toHashString(sigil.firstTrait ?? 0);
-  const sigilIdHex = toHashString(sigil.firstTrait ?? 0);
+  const trait1Hex = toHashString(sigil.firstTrait);
+  const sigilIdHex = toHashString(sigil.sigilId);
   heartSigilMap.set(sigilIdHex, trait1Hex);
   heartSigilTraitMap.set(trait1Hex, sigilIdHex);
 });

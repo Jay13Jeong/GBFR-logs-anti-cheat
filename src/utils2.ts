@@ -25,7 +25,7 @@ export const checkCheating = (player: PlayerData) => {
   if (player !== undefined && player.overmasteryInfo !== null){
     const overmasteries = player.overmasteryInfo.overmasteries;
     for (const mastery of overmasteries) {
-      const checkArrCnt = overmasteries.filter(om => om === mastery).length;
+      const checkArrCnt = overmasteries.filter(om => om.id === mastery.id).length;
       if (checkArrCnt > 1){
         cheats.push("Duplicate Overmasteries");
         if (status === NP) invalidIdx = "-3";
@@ -297,6 +297,10 @@ export const checkDmgDPS = (
   });
   computedSkills.sort((a, b) => b.totalDamage - a.totalDamage);
   const characterType : CharacterType = playerData.characterType;
+  const isKata = characterType === "Pl0200";
+  const isSdp = characterType === "Pl2100";
+  const isPcv = characterType === "Pl1000";
+  const isSeofon = characterType === "Pl2200";
   const limitDmg = characterToDmgCap2Map.get(characterType);
   if (limitDmg === undefined){
     return "Character";
@@ -310,14 +314,16 @@ export const checkDmgDPS = (
     const skillID = actionType["Normal"];
 
     if (skillID === 100){
-      if (maxDmg > finalDmgCap || maxDmg > limitDmg){
+      if (maxDmg > (finalDmgCap + 100) || maxDmg > limitDmg){
       // if (maxDmg > finalDmgCap * (characterType === "Pl2100" ? 0.953 : 1)){
         return "DMG";
       }
       break;
     }
+
     if (skill.actionType === "LinkAttack"){
-      if (maxDmg > finalLinkDmgCap){
+      if (maxDmg > finalLinkDmgCap + (isKata ? 22000 : 0) + (isSdp ? 40000 : 0) +
+        (isPcv ? 230000 : 0) + (isSeofon ? 22000 : 0) + 100){
         // if (maxDmg > finalDmgCap * (characterType === "Pl2100" ? 0.953 : 1)){
         return "DMG";
       }
@@ -350,15 +356,15 @@ export const checkCheatingController = (player: PlayerData) => {
 export const checkDmgBuff = (partyData : Array<PlayerData | null>) => {
   for (const player of partyData){
     if (player === null) continue;
-    if ((player.characterType as string) === "Pl0200"){
+    if (player.characterType === "Pl0200"){
       for (const sigil of player.sigils) {
-        if (sigil.firstTraitId === 2600336030 || sigil.secondTraitId === 2600336030){
-          return 0.25;
+        if (sigil.firstTraitId === 2600336030){
+          return 1.25;
         }
       }
     }
   }
-  return 0;
+  return 1;
 }
 
 export const checkGlassCannon = (player: PlayerData) => {
@@ -384,14 +390,17 @@ export const checkSuperJust = (player: PlayerData) => {
 }
 
 export const checkWarElmt = (player: PlayerData) => {
-  if (player !== null){
-    for (const sigil of player.sigils) {
-      if (toHashString(sigil.firstTraitId) === "4c588c27"){
-        return 1.2;
-      }
-    }
-  }
-  return 1;
+  player;
+  return 1.2;
+  // todo : To make it work according to the field
+  // if (player !== null){
+  //   for (const sigil of player.sigils) {
+  //     if (toHashString(sigil.firstTraitId) === "4c588c27"){
+  //       return 1.2;
+  //     }
+  //   }
+  // }
+  // return 1;
 }
 
 export const checkWarpath = (player: PlayerData) => {
@@ -399,9 +408,20 @@ export const checkWarpath = (player: PlayerData) => {
     if (player.characterType === "Pl0000" || player.characterType === "Pl0100"){
       return 1;
     }
+    if (player.characterType === "Pl2300"){ //송
+      for (const sigil of player.sigils) {
+        if (toHashString(sigil.firstTraitId) === tweyenSigils[0].firstTrait){//마안
+          return 1.20;
+        }
+        if (toHashString(sigil.secondTraitId) === tweyenSigils[0].firstTrait){//마안
+          return 1.20;
+        }
+      }
+      return 1;
+    }
     for (const sigil of player.sigils) {
       if (heartSigilTraitMap.get(toHashString(sigil.firstTraitId)) !== undefined){
-        return 1.15;
+        return 1.20;
       }
     }
   }

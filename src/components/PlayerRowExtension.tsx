@@ -73,18 +73,10 @@ export const PlayerEquipment = ({
   const [invalidSigilIdx, setInvalidSigilIdx] = useState("-1");
 
   useEffect(() => {
-    // const getSupDmgPlusCountAsync = async () => {
-    //   const cnt : number = getSupDmgPlusCount(playerData!.sigils)
-    //   setSupDmgPlusCount(() => cnt);
-    // }
-    // getSupDmgPlusCountAsync();
-  }, [playerData, partyData]);
-
-  useEffect(() => {
     checkCheatingSimpleAsync(playerData!);
     const characterTypeResult = t(`characters:${playerData?.characterType}`, `ui:characters.${playerData?.characterType}`);
     setCharacterType(() => characterTypeResult);
-  }, [playerData]);
+  }, [playerData, partyData]);
 
   const checkCheatingSimpleAsync = async (player: PlayerData) => {
     const checkInfoes = checkCheating(player);
@@ -143,6 +135,7 @@ export const DmgCheckRow = ({
   const [characterType, setCharacterType] = useState<string>("");
   const playerData = partyData[partySlotIndex];
   // const [calcStatus, setCalcStatus] = useState("");
+  // const [calcStatus2, setCalcStatus2] = useState("");
 
   useEffect(() => {
     dmgCheckAsync();
@@ -154,8 +147,9 @@ export const DmgCheckRow = ({
     setDmgChecker(() => ({status: "", cheat: false}));
     const zetaDmg = playerData!.characterType === "Pl1600" ? 1.0627 : 1 //arvess
     const dmgBuff : number = checkDmgBuff(partyData);
-    const djeetaDmg = dmgBuff !== 0 &&
+    const djeetaDmg : number = dmgBuff !== 1 &&
       (playerData!.characterType === "Pl0000" || playerData!.characterType === "Pl0100") ? 1.25 : 1 //kataBuff except
+    const kataAwake : number = (playerData!.characterType === "Pl0200") ? 0.15 : 0
     const baseCap = characterToBaseDmgCapMap.get(playerData!.characterType);
     const baseLinkCap = characterToBaseLinkDmgCapMap.get(playerData!.characterType);
     const dmgCap : number = 2.5;
@@ -186,10 +180,12 @@ export const DmgCheckRow = ({
       alpha = parseFloat(checkAlpha(playerData).toFixed(2));
     }
 
-    const finalDmgCap = (baseCap + (baseCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + dmgBuff)) +
-      (baseCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg;
-    const finalLinkDmgCap = (baseLinkCap + (baseLinkCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + dmgBuff)) +
-      (baseLinkCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg;
+    const finalDmgCap = (baseCap + (baseCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + kataAwake)) +
+      (baseCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg * dmgBuff;
+    const finalLinkDmgCap = (baseLinkCap + (baseLinkCap * (dmgCap + gamma + boundary + glassCannonCap + superJustCap + kataAwake)) +
+      (baseLinkCap * (normalCap + overMstCap + alpha))) * warElmt * warPath * zetaDmg * djeetaDmg  * dmgBuff;
+    // setCalcStatus(() => "N: " + ((finalDmgCap + 0.1) / 1000).toFixed(1) + "k" + dmgBuff) ;
+    // setCalcStatus2(() => "Link: " + ((finalLinkDmgCap + 0.1) / 1000).toFixed(1) + "k");
     const checkResult : string = checkDmgDPS(player, playerData!, finalDmgCap, finalLinkDmgCap);
     if (checkResult !== "") {
       setDmgChecker(() => ({status: checkResult + " Cheat", cheat: true}));
@@ -206,7 +202,9 @@ export const DmgCheckRow = ({
           <td>
             {/*{calcStatus}*/}
           </td>
-          <td></td>
+          <td>
+            {/*{calcStatus2}*/}
+          </td>
           <td></td>
         </tr>
       </Fragment>
