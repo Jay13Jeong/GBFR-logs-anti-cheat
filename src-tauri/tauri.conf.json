@@ -6,8 +6,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "GBFR Logs",
-    "version": "0.141.9"
+    "productName": "GBFR Cheat Detector",
+    "version": "0.161.1"
   },
   "tauri": {
     "allowlist": {

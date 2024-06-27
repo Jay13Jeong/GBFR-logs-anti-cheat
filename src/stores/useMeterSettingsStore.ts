@@ -12,6 +12,7 @@ interface MeterSettings {
   streamer_mode: boolean;
   show_full_values: boolean;
   use_condensed_skills: boolean;
+  open_log_on_save: boolean;
   overlay_columns: MeterColumns[];
 }
 
@@ -28,7 +29,8 @@ const DEFAULT_METER_SETTINGS: MeterSettings = {
   show_display_names: true,
   streamer_mode: false,
   show_full_values: false,
-  use_condensed_skills: false,
+  use_condensed_skills: true,
+  open_log_on_save: true,
   overlay_columns: [MeterColumns.TotalDamage, MeterColumns.DPS, MeterColumns.DamagePercentage],
 };
 
@@ -36,6 +38,10 @@ export type StoreWithPersist<T> = Mutate<StoreApi<T>, [["zustand/persist", T]]>;
 
 export const withStorageDOMEvents = <T>(store: StoreWithPersist<T>) => {
   const storageEventCallback = (e: StorageEvent) => {
+    if (e.key === "i18nextLng" && window.i18n) {
+      window.i18n.changeLanguage(e.newValue);
+    }
+
     if (e.key === store.persist?.getOptions().name && e.newValue) {
       store.persist.rehydrate();
     }

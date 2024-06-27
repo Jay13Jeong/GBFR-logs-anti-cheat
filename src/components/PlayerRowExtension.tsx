@@ -15,7 +15,6 @@ import {
   checkNormalDmgOverMst,
   checkSuperJust,
   checkWarElmt, checkWarpath,
-  // getSupDmgPlusCount
 } from "@/utils2.ts";
 import { t } from "i18next";
 

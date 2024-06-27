@@ -99,19 +99,19 @@ const formatOvermastery = (overmastery: Overmastery | undefined): string => {
   }
 };
 
-const formatPlayerDisplayName = (player: PlayerData, showLevel: boolean = true): string => {
+const formatPlayerDisplayName = (player: PlayerData, showName: boolean, showLevel: boolean = true): string => {
   const displayName = player.displayName;
   const characterType = t(`characters:${player.characterType}`, `ui:characters.${player.characterType}`);
 
   if (showLevel) {
-    if (displayName === "") {
+    if (displayName === "" || !showName) {
       return `${characterType} Lvl. ${player.playerStats?.level || 1}`;
     } else {
       return `${displayName} (${characterType}) Lvl. ${player.playerStats?.level || 1}`;
     }
   }
 
-  if (displayName === "") {
+  if (displayName === "" || !showName) {
     return `${characterType}`;
   } else {
     return `${displayName} (${characterType})`;
@@ -157,12 +157,14 @@ export const ChartTooltip = ({ label, payload }: ChartTooltipProps) => {
 const DPS_INTERVAL = 3;
 
 export const ViewPage = () => {
-  const { color_1, color_2, color_3, color_4 } = useMeterSettingsStore(
+  const { color_1, color_2, color_3, color_4, show_display_names, streamer_mode } = useMeterSettingsStore(
     useShallow((state) => ({
       color_1: state.color_1,
       color_2: state.color_2,
       color_3: state.color_3,
       color_4: state.color_4,
+      show_display_names: state.show_display_names,
+      streamer_mode: state.streamer_mode,
     }))
   );
   const playerColors = [color_1, color_2, color_3, color_4, ...PLAYER_COLORS.slice(4)];
@@ -272,7 +274,8 @@ export const ViewPage = () => {
       const playerName = translatedPlayerName(
         partySlotIndex,
         playerData[partySlotIndex],
-        player as ComputedPlayerState
+        player as ComputedPlayerState,
+        show_display_names && !streamer_mode
       );
 
       const lastFiveValues = dpsChart[playerIndex].slice(i - 5, i);
@@ -303,7 +306,8 @@ export const ViewPage = () => {
       const playerName = translatedPlayerName(
         partySlotIndex,
         playerData[partySlotIndex],
-        player as ComputedPlayerState
+        player as ComputedPlayerState,
+        show_display_names && !streamer_mode
       );
 
       const value = sbaChart[playerIndex][i];
@@ -318,7 +322,12 @@ export const ViewPage = () => {
     const color = partySlotIndex !== -1 ? playerColors[partySlotIndex] : playerColors[player.partyIndex];
 
     return {
-      name: translatedPlayerName(partySlotIndex, playerData[partySlotIndex], player),
+      name: translatedPlayerName(
+        partySlotIndex,
+        playerData[partySlotIndex],
+        player,
+        show_display_names && !streamer_mode
+      ),
       damage: player.totalDamage,
       partySlotIndex,
       color,
@@ -526,7 +535,8 @@ export const ViewPage = () => {
                     const playerName = translatedPlayerName(
                       partySlotIndex,
                       playerData[partySlotIndex],
-                      player as ComputedPlayerState
+                      player as ComputedPlayerState,
+                      show_display_names && !streamer_mode
                     );
 
                     return (
@@ -552,12 +562,12 @@ export const ViewPage = () => {
                 <Table.Tbody>
                   <Table.Tr>
                     {playerData.map((player) => {
-                      const cheatInfoes = checkCheatingController(player); ///////////
+                      const cheatInfoes = checkCheatingController(player); ////
                       return (
                         <Table.Td key={player.actorIndex} flex={1}>
                           <Flex direction="row" wrap="nowrap" align="center">
                             <Text fw={700} size="xl" mr="5">
-                              {formatPlayerDisplayName(player, false)}
+                              {formatPlayerDisplayName(player, show_display_names && !streamer_mode, false)}
                               {cheatInfoes ? (
                                   <>
                                     <br/>
@@ -711,8 +721,9 @@ export const ViewPage = () => {
                               {translateSigilId(sigil.sigilId)} (Lvl. {sigil.sigilLevel})
                             </Text>
                             <Text size="xs" fs="italic" fw={300}>
-                              {translateTraitId(sigil.firstTraitId)}
-                              {sigil.secondTraitId !== EMPTY_ID && ` / ${translateTraitId(sigil.secondTraitId)}`}
+                              {translateTraitId(sigil.firstTraitId)} (Lvl. {sigil.firstTraitLevel})
+                              {sigil.secondTraitId !== EMPTY_ID &&
+                                ` / ${translateTraitId(sigil.secondTraitId)} (Lvl. ${sigil.secondTraitLevel})`}
                             </Text>
                           </Table.Td>
                         );
