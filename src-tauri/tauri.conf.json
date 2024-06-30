@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "GBFR Cheat Detector",
-    "version": "0.161.1"
+    "version": "0.161.2"
   },
   "tauri": {
     "allowlist": {

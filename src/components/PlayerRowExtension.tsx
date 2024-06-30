@@ -95,7 +95,7 @@ export const PlayerEquipment = ({
       setInvalidSigilIdx(() => checkIdx)
     } else if (checkStatus === CHEAT_STAT){
       setCheatState(() => (
-        { status: "Cheat STAT", cheat: true }))
+        { status: "Cheat Overmasteries", cheat: true }))
       setInvalidSigilIdx(() => checkIdx)
     } else {
       setCheatState(() => ({ status: "Ok", cheat: false }))

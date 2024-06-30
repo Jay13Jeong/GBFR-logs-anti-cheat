@@ -19,17 +19,20 @@ export const checkCheating = (player: PlayerData) => {
   const CHEAT_SIGIL: string = "2";
   const CHEAT_STAT: string = "3";
   const NP: string = "0";
+  const emptyOM : number = 2289754288;
   let status : string = NP;
   let invalidIdx : string = "-1";
 
   if (player !== undefined && player.overmasteryInfo !== null){
     const overmasteries = player.overmasteryInfo.overmasteries;
-    for (const mastery of overmasteries) {
-      const checkArrCnt = overmasteries.filter(om => om.id === mastery.id).length;
-      if (checkArrCnt > 1){
-        cheats.push("Duplicate Overmasteries");
-        if (status === NP) invalidIdx = "-3";
-        if (status === NP) status = CHEAT_STAT;
+    if (overmasteries[0].id !== emptyOM){
+      for (const mastery of overmasteries) {
+        const checkArrCnt = overmasteries.filter(om => om.id === mastery.id).length;
+        if (checkArrCnt > 1){
+          cheats.push("Duplicate Overmasteries");
+          if (status === NP) invalidIdx = "-3";
+          if (status === NP) status = CHEAT_STAT;
+        }
       }
     }
   }
